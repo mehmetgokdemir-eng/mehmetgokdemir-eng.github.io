@@ -10,9 +10,23 @@
         h2 { color: #5C6B3C; margin-top: 2em; }
         p { margin: 0.8em 0; }
         .date { color: #888; font-size: 0.9em; }
+        .lang-switch { text-align: right; margin-bottom: 1em; }
+        .lang-btn { background: none; border: 2px solid #B4532A; border-radius: 6px; padding: 6px 16px; margin-left: 6px; cursor: pointer; font-size: 0.95em; color: #B4532A; font-weight: 600; transition: all 0.2s; }
+        .lang-btn.active { background: #B4532A; color: #fff; }
+        .lang-btn:hover { background: #B4532A; color: #fff; }
+        .lang-section { display: none; }
+        .lang-section.active { display: block; }
     </style>
 </head>
 <body>
+
+<div class="lang-switch">
+    <button class="lang-btn active" onclick="switchLang('en')">English</button>
+    <button class="lang-btn" onclick="switchLang('tr')">Türkçe</button>
+</div>
+
+<!-- ENGLISH -->
+<div id="en" class="lang-section active">
     <h1>Dishpedia — Privacy Policy</h1>
     <p class="date">Last updated: August 13, 2026</p>
 
@@ -47,6 +61,55 @@
     <h2>Contact Us</h2>
     <p>If you have any questions about this Privacy Policy, please contact us at:</p>
     <p><strong>Email:</strong> nihangokdemir@gmail.com</p>
+</div>
+
+<!-- TÜRKÇE -->
+<div id="tr" class="lang-section">
+    <h1>Dishpedia — Gizlilik Politikası</h1>
+    <p class="date">Son güncelleme: 13 Ağustos 2026</p>
+
+    <h2>Giriş</h2>
+    <p>Dishpedia ("biz", "uygulama"), Nihan Gökdemir tarafından geliştirilen bir yemek ansiklopedisi uygulamasıdır. Gizliliğinize saygı duyuyor ve uygulamamız aracılığıyla toplanan bilgileri korumayı taahhüt ediyoruz. Bu Gizlilik Politikası hangi verileri topladığımızı, nasıl kullandığımızı ve seçeneklerinizi açıklar.</p>
+
+    <h2>Topladığımız Veriler</h2>
+    <p>Dishpedia %100 çevrimdışı çalışacak şekilde tasarlanmıştır ve herhangi bir kullanıcı hesabı veya giriş gerektirmez. Adınız, e-posta adresiniz, telefon numaranız veya konumunuz gibi hiçbir kişisel bilgiyi toplamıyor, saklamıyor veya iletmiyoruz.</p>
+    <p>Tüm tarif verileri, yer imleri, defterler ve alışveriş listeleri cihazınızda yerel olarak saklanır ve hiçbir zaman herhangi bir sunucuya gönderilmez.</p>
+
+    <h2>Reklamlar</h2>
+    <p>Dishpedia, reklam göstermek için Google AdMob kullanır (banner reklamlar, geçiş reklamları, ödüllü reklamlar ve yerel reklamlar). Google AdMob, onay tercihlerinize bağlı olarak kişiselleştirilmiş veya kişiselleştirilmemiş reklamlar sunmak için belirli cihaz bilgilerini toplayabilir ve reklam tanımlayıcılarını kullanabilir.</p>
+    <p>Avrupa Ekonomik Alanı'ndaki (AEA) kullanıcılar için uygulama, GDPR uyumluluğu kapsamında kişiselleştirilmiş reklamlar göstermeden önce onay almak üzere Google'ın Kullanıcı Mesajlaşma Platformu'nu (UMP) kullanır.</p>
+    <p>Google'ın verileri nasıl kullandığı hakkında daha fazla bilgi için: <a href="https://policies.google.com/privacy" target="_blank">Google Gizlilik Politikası</a> ve <a href="https://support.google.com/admob/answer/6128543" target="_blank">Google'ın hizmetlerimizi kullanan sitelerden veya uygulamalardan gelen bilgileri nasıl kullandığı</a>.</p>
+
+    <h2>Üçüncü Taraf Hizmetler</h2>
+    <p>Uygulama, veri toplayabilecek aşağıdaki üçüncü taraf hizmeti kullanır:</p>
+    <p><strong>Google AdMob</strong> — reklam sunmak için. AdMob, reklam dağıtımı ve analiz amacıyla cihaz tanımlayıcıları, IP adresi ve kullanım verilerini toplayabilir.</p>
+
+    <h2>Çocukların Gizliliği</h2>
+    <p>Dishpedia 13 yaşın altındaki çocuklara yönelik değildir. Çocuklardan bilerek kişisel bilgi toplamıyoruz. Uygulamanın içeriği (tarifler ve yemek tarihi) her yaş için uygundur.</p>
+
+    <h2>Veri Güvenliği</h2>
+    <p>Sunucularımızda kişisel veri toplamadığımız veya saklamadığımız için kişisel bilgilerinize yönelik risk minimumdur. Tüm kullanıcı tarafından oluşturulan içerik (yer imleri, notlar, alışveriş listeleri) cihazınızda kalır.</p>
+
+    <h2>Tercihleriniz</h2>
+    <p>Cihaz ayarlarınız üzerinden reklam tanımlayıcınızı sıfırlayabilir veya kişiselleştirilmiş reklamları devre dışı bırakabilirsiniz. Ayrıca uygulamada ödüllü bir reklam izleyerek sınırlı bir süre reklamsız deneyimin tadını çıkarabilirsiniz.</p>
+
+    <h2>Bu Politikadaki Değişiklikler</h2>
+    <p>Bu Gizlilik Politikasını zaman zaman güncelleyebiliriz. Herhangi bir değişiklik, güncellenmiş tarihle birlikte bu sayfaya yansıtılacaktır.</p>
+
+    <h2>İletişim</h2>
+    <p>Bu Gizlilik Politikası hakkında sorularınız varsa lütfen bizimle iletişime geçin:</p>
+    <p><strong>E-posta:</strong> nihangokdemir@gmail.com</p>
+</div>
+
+<script>
+function switchLang(lang) {
+    document.querySelectorAll('.lang-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(lang).classList.add('active');
+    document.querySelector('[onclick="switchLang(\'' + lang + '\')"]').classList.add('active');
+    document.documentElement.lang = lang === 'tr' ? 'tr' : 'en';
+}
+</script>
 
 </body>
 </html>
