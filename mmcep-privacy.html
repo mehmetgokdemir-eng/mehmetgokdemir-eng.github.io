@@ -1,48 +1,78 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MM Cep — Gizlilik Politikası</title>
-    <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.7; }
-        h1 { color: #00695C; }
-        h2 { color: #00695C; margin-top: 30px; }
-        .date { color: #666; font-size: 14px; }
-        .app-name { font-weight: bold; color: #00695C; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MM Cep — Gizlilik Politikası</title>
+<style>
+  body{font-family:-apple-system,Segoe UI,Roboto,sans-serif;max-width:760px;margin:40px auto;padding:0 20px;line-height:1.65;color:#1e293b}
+  h1{color:#00695c;border-bottom:3px solid #ffc107;padding-bottom:8px}
+  h2{color:#00695c;margin-top:32px;font-size:1.15em}
+  .tarih{color:#64748b;font-size:.9em}
+  .kutu{background:#f0fdf9;border-left:4px solid #00695c;padding:12px 16px;margin:14px 0;border-radius:6px}
+  ul{padding-left:22px}
+  li{margin:6px 0}
+  a{color:#00695c}
+  footer{margin-top:40px;color:#64748b;font-size:.85em;border-top:1px solid #e2e8f0;padding-top:12px}
+</style>
 </head>
 <body>
-    <h1>MM Cep — Gizlilik Politikası</h1>
-    <p class="date">Son güncelleme: 26 Temmuz 2026</p>
 
-    <h2>1. Genel Bakış</h2>
-    <p><span class="app-name">MM Cep</span> (Meslek Mensubu Cep Asistanı), Türk vergi ve muhasebe mevzuatına yönelik hesaplama ve referans araçları sunan ücretsiz bir Android uygulamasıdır. Uygulama, Nihan GÖKDEMİR tarafından geliştirilmiş ve yayımlanmıştır.</p>
+<h1>MM Cep — Gizlilik Politikası</h1>
+<p class="tarih">Son güncelleme: 4 Eylül 2026</p>
 
-    <h2>2. Toplanan Veriler</h2>
-    <p><span class="app-name">MM Cep</span>, kullanıcılardan kişisel veri toplamaz, sunucuya göndermez ve üçüncü taraflarla paylaşmaz. Uygulama tamamen çevrimdışı (offline) çalışır.</p>
-    <ul>
-        <li><strong>Hesaplama verileri:</strong> Girdiğiniz tutar, tarih ve oranlar yalnızca cihazınızda işlenir, hiçbir yere iletilmez.</li>
-        <li><strong>Favoriler ve son kullanılanlar:</strong> Tercihleriniz yalnızca cihazınızdaki SharedPreferences'ta saklanır. Sunucuya gönderilmez.</li>
-        <li><strong>Kişisel bilgi:</strong> Ad, e-posta, telefon, konum veya herhangi bir kimlik bilgisi toplanmaz.</li>
-    </ul>
+<h2>1. Genel Bakış</h2>
+<p>MM Cep (Meslek Mensubu Cep Asistanı), Türk vergi ve muhasebe mevzuatına yönelik hesaplama ve referans araçları sunan ücretsiz bir Android uygulamasıdır. Uygulama, Nihan GÖKDEMİR tarafından geliştirilmiş ve yayımlanmıştır.</p>
+<p>Uygulama kullanıcı hesabı gerektirmez; ad, e-posta, telefon numarası veya benzeri kimlik bilgisi istemez.</p>
 
-    <h2>3. Üçüncü Taraf Hizmetleri</h2>
-    <p>Uygulama şu anda üçüncü taraf analitik, reklam veya izleme hizmeti kullanmamaktadır. İleride Google AdMob gibi bir reklam hizmeti eklenirse, bu politika güncellenecek ve ilgili hizmetin gizlilik politikasına bağlantı verilecektir.</p>
+<h2>2. Cihazınızda Saklanan Veriler</h2>
+<p>Aşağıdaki veriler yalnızca cihazınızda tutulur, sunucuya gönderilmez:</p>
+<ul>
+  <li><strong>Hesaplama girdileri</strong> — girdiğiniz tutar, tarih ve oranlar yalnızca cihazınızda işlenir.</li>
+  <li><strong>Favoriler ve son kullanılanlar</strong> — tercihleriniz cihazınızın uygulama depolama alanında saklanır.</li>
+  <li><strong>Kullanıcı tanımlı tarifeler</strong> — YMM ücret tarifesi gibi kendinizin girdiği parametreler cihazınızda kalır.</li>
+  <li><strong>Vergi takvimi önbelleği</strong> — çevrimdışı kullanım için takvim verisi cihazınızda geçici olarak saklanır.</li>
+</ul>
+<p>Bu veriler uygulamayı kaldırdığınızda cihazınızdan silinir.</p>
 
-    <h2>4. Veri Güvenliği</h2>
-    <p>Tüm veriler yalnızca cihazınızda saklandığından, veri güvenliği cihazınızın güvenlik ayarlarına bağlıdır. Uygulama internet erişimi gerektirmez (reklam entegrasyonu hariç).</p>
+<h2>3. Reklamlar ve Reklam Kimliği</h2>
+<div class="kutu">
+<p>Uygulama, <strong>Yango Ads</strong> (Yandex Mobile Ads SDK) aracılığıyla reklam gösterir. Bu hizmet, reklam sunmak ve reklam performansını ölçmek amacıyla cihazınızın <strong>reklam kimliğini</strong> (Advertising ID) toplar ve reklam ağıyla paylaşır.</p>
+<p>Reklam kimliği isteğe bağlıdır. Cihazınızın <strong>Ayarlar → Google → Reklamlar</strong> bölümünden kişiselleştirilmiş reklamları kapatabilir veya reklam kimliğinizi sıfırlayabilirsiniz.</p>
+<p>Yandex'in veri işleme esasları için: <a href="https://yandex.com/legal/confidential/" target="_blank" rel="noopener">Yandex Gizlilik Politikası</a></p>
+</div>
+<p>Uygulama, reklam hizmeti dışında herhangi bir analitik veya izleme hizmeti kullanmaz.</p>
 
-    <h2>5. Çocukların Gizliliği</h2>
-    <p>Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bu yaş grubundan bilerek veri toplamaz.</p>
+<h2>4. İnternet Erişimi</h2>
+<p>Uygulama iki amaçla internete bağlanır:</p>
+<ul>
+  <li><strong>Reklam sunumu</strong> — yukarıda açıklanan Yango Ads hizmeti.</li>
+  <li><strong>Vergi takvimi</strong> — güncel beyanname ve ödeme son günleri, Gelir İdaresi Başkanlığı verisini aktaran <strong>mmcep.com</strong> sunucusundan alınır. Bu istekte kişisel veri gönderilmez; sunucu yalnızca standart erişim kayıtlarını (IP adresi, istek zamanı) kısa süreli tutar.</li>
+</ul>
+<p>İnternet bağlantısı olmadığında uygulama, hesaplayıcılar ve önbelleğe alınmış takvimle çalışmaya devam eder.</p>
 
-    <h2>6. Değişiklikler</h2>
-    <p>Bu gizlilik politikası zaman zaman güncellenebilir. Güncellemeler bu sayfada yayımlanacaktır.</p>
+<h2>5. Verilerin Silinmesi</h2>
+<p>Verilerinizin silinmesini talep etmek için izleyebileceğiniz adımlar:</p>
+<ul>
+  <li><strong>Reklam kimliği:</strong> Cihazınızın Ayarlar → Google → Reklamlar bölümünden reklam kimliğinizi sıfırlayın veya kişiselleştirilmiş reklamları kapatın. Bu işlem, reklam ağının sizinle ilişkilendirdiği kimliği geçersiz kılar.</li>
+  <li><strong>Cihazınızdaki veriler:</strong> Uygulamayı kaldırmanız, favoriler, tercihler ve önbellek dahil tüm yerel verileri siler. Ayrıca Ayarlar → Uygulamalar → MM Cep → Depolama → Verileri temizle yolunu kullanabilirsiniz.</li>
+  <li><strong>Diğer talepler:</strong> <a href="mailto:vbaogren@gmail.com">vbaogren@gmail.com</a> adresine yazabilirsiniz. Talepler 30 gün içinde yanıtlanır.</li>
+</ul>
+<p>Uygulama sunucuda kişisel veri tutmadığından, silinmesi gereken sunucu tarafı kayıt bulunmamaktadır. Sunucu erişim kayıtları en fazla 30 gün saklanır.</p>
 
-    <h2>7. İletişim</h2>
-    <p>Sorularınız için: <strong>vbaogren@gmail.com</strong></p>
+<h2>6. Veri Güvenliği</h2>
+<p>Uygulamanın internet üzerinden yaptığı tüm iletişim HTTPS ile şifrelenir. Cihazınızda saklanan verilerin güvenliği cihazınızın güvenlik ayarlarına bağlıdır.</p>
 
-    <hr style="margin-top: 40px; border: 1px solid #eee;">
-    <p style="font-size: 12px; color: #999;">© 2026 Nihan GÖKDEMİR. Tüm hakları saklıdır.</p>
+<h2>7. Çocukların Gizliliği</h2>
+<p>Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bu yaş grubundan bilerek veri toplamaz.</p>
+
+<h2>8. Değişiklikler</h2>
+<p>Bu gizlilik politikası zaman zaman güncellenebilir. Güncellemeler bu sayfada yayımlanır ve sayfanın üstündeki tarih değiştirilir.</p>
+
+<h2>9. İletişim</h2>
+<p>Sorularınız için: <a href="mailto:vbaogren@gmail.com">vbaogren@gmail.com</a></p>
+
+<footer>© 2026 Nihan GÖKDEMİR. Tüm hakları saklıdır.</footer>
+
 </body>
 </html>
