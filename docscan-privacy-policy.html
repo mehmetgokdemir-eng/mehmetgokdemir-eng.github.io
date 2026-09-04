@@ -3,178 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocScan - Gizlilik Politikası</title>
+    <title>DocScan - Gizlilik Politikası / Privacy Policy</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
+            line-height: 1.65;
             color: #333;
             background: #f5f5f5;
         }
         .container {
             max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 40px 24px 60px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
         }
         h1 {
             color: #1565C0;
-            margin-bottom: 30px;
+            margin-bottom: 26px;
             border-bottom: 3px solid #1565C0;
             padding-bottom: 10px;
+            font-size: 26px;
         }
-        h2 {
-            color: #1565C0;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        ul {
-            margin-left: 30px;
-            margin-bottom: 15px;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        .language-switch {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
+        h2 { color: #1565C0; margin-top: 26px; margin-bottom: 12px; font-size: 19px; }
+        p  { margin-bottom: 14px; }
+        ul { margin-left: 26px; margin-bottom: 14px; }
+        li { margin-bottom: 9px; }
+        a  { color: #1565C0; }
+        .language-switch { position: fixed; top: 14px; right: 14px; z-index: 10; }
         .language-switch button {
-            padding: 8px 16px;
-            margin-left: 10px;
-            border: none;
-            background: #1565C0;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
+            padding: 8px 16px; margin-left: 8px; border: none;
+            background: #1565C0; color: #fff; border-radius: 4px;
+            cursor: pointer; font-size: 14px;
         }
-        .language-switch button.active {
-            background: #0d47a1;
-        }
+        .language-switch button.active { background: #0d47a1; }
         .content { display: none; }
         .content.active { display: block; }
         .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            text-align: center;
-            color: #666;
-            font-size: 14px;
+            margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
+            text-align: center; color: #666; font-size: 14px;
+        }
+        .note {
+            background: #E3F2FD; border-left: 4px solid #1565C0;
+            padding: 12px 16px; margin: 16px 0; font-size: 15px;
         }
     </style>
 </head>
 <body>
     <div class="language-switch">
-        <button class="active" onclick="showLanguage('tr')">Türkçe</button>
-        <button onclick="showLanguage('en')">English</button>
+        <button id="btn-tr" class="active" onclick="showLanguage('tr')">Türkçe</button>
+        <button id="btn-en" onclick="showLanguage('en')">English</button>
     </div>
 
     <div class="container">
-        <!-- TURKISH -->
+
+        <!-- ══════════ TÜRKÇE ══════════ -->
         <div id="content-tr" class="content active">
-            <h1>🔒 DocScan - Gizlilik Politikası</h1>
-            
+            <h1>DocScan — Gizlilik Politikası</h1>
+
             <h2>1. Genel Bilgiler</h2>
             <p>DocScan uygulaması ("Uygulama"), kullanıcı gizliliğine saygı duyarak tasarlanmıştır. Bu gizlilik politikası, uygulamanın veri işleme uygulamalarını açıklar.</p>
 
             <h2>2. Toplanan Veriler</h2>
-            <p><strong>DocScan aşağıdaki verileri toplar:</strong></p>
             <ul>
-                <li><strong>Tarama ve QR Verileri:</strong> Taradığınız belgeler ve okudğunuz QR kodlar tamamen cihazınızda kalır. Sunuculara gönderilmez.</li>
-                <li><strong>Reklam Verileri:</strong> Google AdMob üzerinden anonimleştirilmiş reklamcılık verileri kullanılır (cinsiyet, yaş aralığı, ilgi alanları vb. tahminler)</li>
-                <li><strong>Kamera İzni:</strong> Sadece belge tarama ve QR okuma sırasında kullanılır. Kalıcı olarak kaydedilmez.</li>
+                <li><strong>Tarama ve QR Verileri:</strong> Taradığınız belgeler, oluşturduğunuz PDF'ler, eklediğiniz notlar ve etiketler yalnızca cihazınızda saklanır. Sunuculara gönderilmez.</li>
+                <li><strong>Fotoğraflar:</strong> Belge tarama sırasında kamera görüntüsü işlenir. Görüntü işleme cihaz üzerinde yapılır ve kalıcı olarak dışarı aktarılmaz.</li>
+                <li><strong>Reklam Kimliği:</strong> Yandex Advertising Network, reklam gösterimi ve ölçümü için cihazınızın Reklam Kimliğini (Advertising ID) toplar ve işler. Bu kimlik, cihaz ayarlarınızdan sıfırlanabilir veya kişiselleştirilmiş reklamlar kapatılabilir.</li>
+                <li><strong>Kamera İzni:</strong> Yalnızca belge tarama ve QR okuma sırasında kullanılır.</li>
             </ul>
 
-            <h2>3. Veri Güvenliği</h2>
-            <p>Uygulamadaki tüm veriler cihazınızda şifreli olarak saklanır. Kişisel bilgiler hiçbir zaman uzak sunuculara gönderilmez.</p>
+            <h2>3. Verilerin Paylaşımı</h2>
+            <p>Belgeleriniz, notlarınız ve etiketleriniz hiçbir üçüncü tarafla paylaşılmaz. Yalnızca cihaz kimliği (Reklam Kimliği), reklam gösterimi amacıyla reklam sağlayıcımız Yandex Advertising Network ile paylaşılır.</p>
 
-            <h2>4. İnternet Bağlantısı</h2>
-            <p>DocScan çoğu özelliği internet bağlantısı olmadan kullanabilir. Sadece AdMob reklamlarını yüklemek için kısa bir bağlantı kullanılır.</p>
+            <h2>4. Veri Güvenliği</h2>
+            <p>Belgeleriniz uygulamanın özel dizininde saklanır ve başka uygulamalar tarafından erişilemez. İsterseniz kategori klasörlerinizi cihazınızın biyometrik kilidi (parmak izi / yüz tanıma) ile koruyabilirsiniz. Biyometrik doğrulama cihaz üzerinde yapılır; biyometrik verileriniz uygulamaya aktarılmaz.</p>
 
-            <h2>5. Üçüncü Taraf Hizmetleri</h2>
+            <h2>5. İnternet Bağlantısı</h2>
+            <p>DocScan'in belge tarama, PDF oluşturma, görüntüye dönüştürme ve QR okuma özellikleri internet bağlantısı olmadan çalışır. İnternet yalnızca reklamların yüklenmesi ve uygulama güncelleme kontrolü için kullanılır.</p>
+
+            <h2>6. Üçüncü Taraf Hizmetleri</h2>
             <ul>
-                <li><strong>Google AdMob:</strong> Reklamların gösterilmesi için. <a href="https://policies.google.com/privacy" target="_blank">Google Gizlilik Politikası</a></li>
-                <li><strong>Google Play Services:</strong> ML Kit ve Document Scanner için. <a href="https://policies.google.com/privacy" target="_blank">Google Gizlilik Politikası</a></li>
+                <li><strong>Yandex Advertising Network</strong> — reklam gösterimi için.
+                    <a href="https://yandex.com/legal/confidential/" target="_blank" rel="noopener">Yandex Gizlilik Politikası</a></li>
+                <li><strong>Google Play Services (ML Kit, Document Scanner)</strong> — belge tarama ve barkod okuma için.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Gizlilik Politikası</a></li>
+                <li><strong>Google Play Core</strong> — uygulama içi güncelleme ve değerlendirme için.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Gizlilik Politikası</a></li>
             </ul>
 
-            <h2>6. Haklarınız</h2>
-            <p>Gizlilik ile ilgili sorularınız, şikayetleriniz veya veri silme talepleriniz için iletişime geçebilirsiniz.</p>
+            <h2>7. Çocukların Gizliliği</h2>
+            <p>Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bilerek bu yaş grubundan kişisel veri toplamaz.</p>
 
-            <h2>7. İletişim</h2>
-            <p>Gizlilik konularında sorularınız varsa Instagram: @vbaogren veya email aracılığıyla iletişime geçin.</p>
+            <h2>8. Haklarınız</h2>
+            <p>Uygulamayı cihazınızdan kaldırdığınızda tüm belgeleriniz, notlarınız ve ayarlarınız silinir. Belgeleri uygulama içinden tek tek veya toplu olarak da silebilirsiniz. Reklam kimliğinizi cihaz ayarlarından sıfırlayabilirsiniz.</p>
 
-            <h2>8. Politika Güncellemeleri</h2>
-            <p>Bu gizlilik politikası zaman zaman güncellenebilir. Önemli değişiklikler uygulamada bildirilecektir.</p>
+            <h2>9. İletişim</h2>
+            <p>Gizlilik ile ilgili sorularınız için: <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a><br>
+            Instagram: <a href="https://instagram.com/vbaogren" target="_blank" rel="noopener">@vbaogren</a></p>
+
+            <h2>10. Politika Güncellemeleri</h2>
+            <p>Bu gizlilik politikası zaman zaman güncellenebilir. Önemli değişiklikler uygulama içinde ve bu sayfada duyurulur.</p>
 
             <div class="footer">
-                <p>Son güncelleme: Ağustos 2026 | DocScan v1.0.0</p>
+                <p>Son güncelleme: 24 Ağustos 2026 &nbsp;|&nbsp; DocScan v1.9</p>
             </div>
         </div>
 
-        <!-- ENGLISH -->
+        <!-- ══════════ ENGLISH ══════════ -->
         <div id="content-en" class="content">
-            <h1>🔒 DocScan - Privacy Policy</h1>
-            
+            <h1>DocScan — Privacy Policy</h1>
+
             <h2>1. General Information</h2>
             <p>The DocScan application ("App") is designed with respect for user privacy. This privacy policy explains the app's data processing practices.</p>
 
             <h2>2. Data Collected</h2>
-            <p><strong>DocScan collects the following data:</strong></p>
             <ul>
-                <li><strong>Scanning and QR Data:</strong> Scanned documents and QR codes remain entirely on your device. They are not sent to servers.</li>
-                <li><strong>Advertising Data:</strong> Anonymized advertising data from Google AdMob is used (estimated gender, age range, interests, etc.)</li>
-                <li><strong>Camera Permission:</strong> Used only during document scanning and QR reading. Not permanently recorded.</li>
+                <li><strong>Scanning and QR Data:</strong> Your scanned documents, generated PDFs, notes and tags are stored only on your device. They are never sent to any server.</li>
+                <li><strong>Photos:</strong> The camera image is processed during document scanning. Image processing happens on the device and is not permanently exported.</li>
+                <li><strong>Advertising ID:</strong> Yandex Advertising Network collects and processes your device's Advertising ID for ad delivery and measurement. You can reset this identifier or opt out of personalized ads in your device settings.</li>
+                <li><strong>Camera Permission:</strong> Used only during document scanning and QR reading.</li>
             </ul>
 
-            <h2>3. Data Security</h2>
-            <p>All data in the app is stored encrypted on your device. Personal information is never sent to remote servers.</p>
+            <h2>3. Data Sharing</h2>
+            <p>Your documents, notes and tags are never shared with any third party. Only the device identifier (Advertising ID) is shared with our ad provider, Yandex Advertising Network, for the purpose of serving ads.</p>
 
-            <h2>4. Internet Connection</h2>
-            <p>DocScan can use most features without an internet connection. Internet is only used briefly to load AdMob ads.</p>
+            <h2>4. Data Security</h2>
+            <p>Your documents are stored in the app's private directory and cannot be accessed by other apps. You may optionally protect category folders with your device's biometric lock (fingerprint / face recognition). Biometric verification is performed by the device; your biometric data is never transferred to the app.</p>
 
-            <h2>5. Third-Party Services</h2>
+            <h2>5. Internet Connection</h2>
+            <p>DocScan's document scanning, PDF creation, image conversion and QR reading features work without an internet connection. Internet is used only to load ads and to check for app updates.</p>
+
+            <h2>6. Third-Party Services</h2>
             <ul>
-                <li><strong>Google AdMob:</strong> For displaying ads. <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></li>
-                <li><strong>Google Play Services:</strong> For ML Kit and Document Scanner. <a href="https://policies.google.com/privacy" target="_blank">Google Privacy Policy</a></li>
+                <li><strong>Yandex Advertising Network</strong> — for serving ads.
+                    <a href="https://yandex.com/legal/confidential/" target="_blank" rel="noopener">Yandex Privacy Policy</a></li>
+                <li><strong>Google Play Services (ML Kit, Document Scanner)</strong> — for document scanning and barcode reading.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+                <li><strong>Google Play Core</strong> — for in-app updates and reviews.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
             </ul>
 
-            <h2>6. Your Rights</h2>
-            <p>You can contact us with questions, complaints, or data deletion requests regarding privacy.</p>
+            <h2>7. Children's Privacy</h2>
+            <p>The app is not directed at children under 13 and does not knowingly collect personal data from them.</p>
 
-            <h2>7. Contact</h2>
-            <p>For privacy questions, reach out via Instagram: @vbaogren or email.</p>
+            <h2>8. Your Rights</h2>
+            <p>Uninstalling the app removes all your documents, notes and settings from your device. You can also delete documents individually or in bulk from within the app. You may reset your Advertising ID in your device settings at any time.</p>
 
-            <h2>8. Policy Updates</h2>
-            <p>This privacy policy may be updated periodically. Major changes will be notified in the app.</p>
+            <h2>9. Contact</h2>
+            <p>For privacy questions: <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a><br>
+            Instagram: <a href="https://instagram.com/vbaogren" target="_blank" rel="noopener">@vbaogren</a></p>
+
+            <h2>10. Policy Updates</h2>
+            <p>This privacy policy may be updated from time to time. Significant changes will be announced in the app and on this page.</p>
 
             <div class="footer">
-                <p>Last updated: August 2026 | DocScan v1.0.0</p>
+                <p>Last updated: August 24, 2026 &nbsp;|&nbsp; DocScan v1.9</p>
             </div>
         </div>
     </div>
 
     <script>
         function showLanguage(lang) {
-            // Hide all
             document.getElementById('content-tr').classList.remove('active');
             document.getElementById('content-en').classList.remove('active');
-            
-            // Show selected
             document.getElementById('content-' + lang).classList.add('active');
-            
-            // Update buttons
-            document.querySelectorAll('.language-switch button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+            document.getElementById('btn-tr').classList.remove('active');
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('btn-' + lang).classList.add('active');
         }
     </script>
 </body>
