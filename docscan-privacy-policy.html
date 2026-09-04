@@ -69,15 +69,24 @@
             <ul>
                 <li><strong>Tarama ve QR Verileri:</strong> Taradığınız belgeler, oluşturduğunuz PDF'ler, eklediğiniz notlar ve etiketler yalnızca cihazınızda saklanır. Sunuculara gönderilmez.</li>
                 <li><strong>Fotoğraflar:</strong> Belge tarama sırasında kamera görüntüsü işlenir. Görüntü işleme cihaz üzerinde yapılır ve kalıcı olarak dışarı aktarılmaz.</li>
-                <li><strong>Reklam Kimliği:</strong> Yandex Advertising Network, reklam gösterimi ve ölçümü için cihazınızın Reklam Kimliğini (Advertising ID) toplar ve işler. Bu kimlik, cihaz ayarlarınızdan sıfırlanabilir veya kişiselleştirilmiş reklamlar kapatılabilir.</li>
+                <li><strong>Reklam ve Ölçüm Verileri:</strong> Uygulamada reklam gösterebilmek için Yandex Advertising Network SDK'sı kullanılır. Bu SDK, reklam gösterimi, ölçümü, analizi ve dolandırıcılık önleme amacıyla aşağıdaki verileri toplar ve Yandex ile paylaşır:
+                    <ul>
+                        <li>Cihaz veya diğer kimlikler (Reklam Kimliği / Advertising ID)</li>
+                        <li>Yaklaşık konum (IP adresinden türetilen, şehir düzeyinde)</li>
+                        <li>Uygulama içi etkileşimler (reklam görüntülenmesi ve tıklamalar)</li>
+                        <li>Diğer uygulama etkinliği</li>
+                        <li>Uygulama tanılama verileri (çökme ve performans kayıtları)</li>
+                    </ul>
+                    Bu veriler reklam sağlayıcısı tarafından toplanır; belgelerinizle veya notlarınızla ilişkilendirilmez. Reklam Kimliğini cihaz ayarlarınızdan sıfırlayabilir veya kişiselleştirilmiş reklamları kapatabilirsiniz.</li>
                 <li><strong>Kamera İzni:</strong> Yalnızca belge tarama ve QR okuma sırasında kullanılır.</li>
             </ul>
 
             <h2>3. Verilerin Paylaşımı</h2>
-            <p>Belgeleriniz, notlarınız ve etiketleriniz hiçbir üçüncü tarafla paylaşılmaz. Yalnızca cihaz kimliği (Reklam Kimliği), reklam gösterimi amacıyla reklam sağlayıcımız Yandex Advertising Network ile paylaşılır.</p>
+            <p><strong>Belgeleriniz, oluşturduğunuz PDF'ler, notlarınız ve etiketleriniz hiçbir üçüncü tarafla paylaşılmaz</strong> ve cihazınızdan çıkmaz.</p>
+            <p>Yalnızca yukarıdaki 2. maddede sayılan reklam ve ölçüm verileri, reklam sağlayıcımız Yandex Advertising Network ile paylaşılır. Bu paylaşım reklamcılık ve pazarlama, analiz, dolandırıcılık önleme ve güvenlik amaçlarıyla yapılır. Bu veriler reklam gösterebilmek için zorunludur; uygulama içinden kapatılamaz.</p>
 
             <h2>4. Veri Güvenliği</h2>
-            <p>Belgeleriniz uygulamanın özel dizininde saklanır ve başka uygulamalar tarafından erişilemez. İsterseniz kategori klasörlerinizi cihazınızın biyometrik kilidi (parmak izi / yüz tanıma) ile koruyabilirsiniz. Biyometrik doğrulama cihaz üzerinde yapılır; biyometrik verileriniz uygulamaya aktarılmaz.</p>
+            <p>Reklam ve ölçüm verileri aktarım sırasında şifrelenerek (HTTPS) iletilir. Belgeleriniz uygulamanın özel dizininde saklanır ve başka uygulamalar tarafından erişilemez. İsterseniz kategori klasörlerinizi cihazınızın biyometrik kilidi (parmak izi / yüz tanıma) ile koruyabilirsiniz. Biyometrik doğrulama cihaz üzerinde yapılır; biyometrik verileriniz uygulamaya aktarılmaz.</p>
 
             <h2>5. İnternet Bağlantısı</h2>
             <p>DocScan'in belge tarama, PDF oluşturma, görüntüye dönüştürme ve QR okuma özellikleri internet bağlantısı olmadan çalışır. İnternet yalnızca reklamların yüklenmesi ve uygulama güncelleme kontrolü için kullanılır.</p>
@@ -121,15 +130,24 @@
             <ul>
                 <li><strong>Scanning and QR Data:</strong> Your scanned documents, generated PDFs, notes and tags are stored only on your device. They are never sent to any server.</li>
                 <li><strong>Photos:</strong> The camera image is processed during document scanning. Image processing happens on the device and is not permanently exported.</li>
-                <li><strong>Advertising ID:</strong> Yandex Advertising Network collects and processes your device's Advertising ID for ad delivery and measurement. You can reset this identifier or opt out of personalized ads in your device settings.</li>
+                <li><strong>Advertising and Measurement Data:</strong> The app uses the Yandex Advertising Network SDK to display ads. For ad delivery, measurement, analytics and fraud prevention, this SDK collects and shares the following with Yandex:
+                    <ul>
+                        <li>Device or other identifiers (Advertising ID)</li>
+                        <li>Approximate location (city level, derived from IP address)</li>
+                        <li>In-app interactions (ad impressions and clicks)</li>
+                        <li>Other app activity</li>
+                        <li>App diagnostics (crash and performance logs)</li>
+                    </ul>
+                    This data is collected by the ad provider and is never linked to your documents or notes. You can reset your Advertising ID or opt out of personalized ads in your device settings.</li>
                 <li><strong>Camera Permission:</strong> Used only during document scanning and QR reading.</li>
             </ul>
 
             <h2>3. Data Sharing</h2>
-            <p>Your documents, notes and tags are never shared with any third party. Only the device identifier (Advertising ID) is shared with our ad provider, Yandex Advertising Network, for the purpose of serving ads.</p>
+            <p><strong>Your documents, generated PDFs, notes and tags are never shared with any third party</strong> and never leave your device.</p>
+            <p>Only the advertising and measurement data listed in section 2 is shared with our ad provider, Yandex Advertising Network, for advertising and marketing, analytics, fraud prevention and security purposes. This data is required in order to serve ads and cannot be disabled from within the app.</p>
 
             <h2>4. Data Security</h2>
-            <p>Your documents are stored in the app's private directory and cannot be accessed by other apps. You may optionally protect category folders with your device's biometric lock (fingerprint / face recognition). Biometric verification is performed by the device; your biometric data is never transferred to the app.</p>
+            <p>Advertising and measurement data is transmitted over an encrypted connection (HTTPS). Your documents are stored in the app's private directory and cannot be accessed by other apps. You may optionally protect category folders with your device's biometric lock (fingerprint / face recognition). Biometric verification is performed by the device; your biometric data is never transferred to the app.</p>
 
             <h2>5. Internet Connection</h2>
             <p>DocScan's document scanning, PDF creation, image conversion and QR reading features work without an internet connection. Internet is used only to load ads and to check for app updates.</p>
