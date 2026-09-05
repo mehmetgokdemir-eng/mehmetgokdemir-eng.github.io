@@ -1,98 +1,195 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kalıp Rehberi — Gizlilik Politikası ve Kullanım Şartları</title>
-<style>
-  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #222; }
-  h1 { font-size: 24px; }
-  h2 { font-size: 18px; margin-top: 32px; }
-  p, li { font-size: 15px; }
-  .updated { color: #666; font-size: 13px; margin-bottom: 24px; }
-  hr { border: 0; border-top: 1px solid #ddd; margin: 40px 0; }
-  a { color: #1a5fb4; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocScan - Gizlilik Politikası / Privacy Policy</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.65;
+            color: #333;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px 60px;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,.1);
+        }
+        h1 {
+            color: #1565C0;
+            margin-bottom: 26px;
+            border-bottom: 3px solid #1565C0;
+            padding-bottom: 10px;
+            font-size: 26px;
+        }
+        h2 { color: #1565C0; margin-top: 26px; margin-bottom: 12px; font-size: 19px; }
+        p  { margin-bottom: 14px; }
+        ul { margin-left: 26px; margin-bottom: 14px; }
+        li { margin-bottom: 9px; }
+        a  { color: #1565C0; }
+        .language-switch { position: fixed; top: 14px; right: 14px; z-index: 10; }
+        .language-switch button {
+            padding: 8px 16px; margin-left: 8px; border: none;
+            background: #1565C0; color: #fff; border-radius: 4px;
+            cursor: pointer; font-size: 14px;
+        }
+        .language-switch button.active { background: #0d47a1; }
+        .content { display: none; }
+        .content.active { display: block; }
+        .footer {
+            margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee;
+            text-align: center; color: #666; font-size: 14px;
+        }
+        .note {
+            background: #E3F2FD; border-left: 4px solid #1565C0;
+            padding: 12px 16px; margin: 16px 0; font-size: 15px;
+        }
+    </style>
 </head>
 <body>
+    <div class="language-switch">
+        <button id="btn-tr" class="active" onclick="showLanguage('tr')">Türkçe</button>
+        <button id="btn-en" onclick="showLanguage('en')">English</button>
+    </div>
 
-<h1>Kalıp Rehberi — Gizlilik Politikası</h1>
-<p class="updated">Son güncelleme: 5 Eylül 2026 · Sürüm 4.0</p>
+    <div class="container">
 
-<p>Kalıp Rehberi ("Uygulama"), dikişle ilgilenen kullanıcılar için hazırlanmış bir başvuru uygulamasıdır: adım adım dikim rehberleri, tadilat anlatımları, kumaş bilgi tablosu, dikiş sözlüğü, hesaplayıcılar ve dikiş kalıbı sitelerine yönlendirme içerir. Bu sayfa, uygulamanın kullanıcı verilerini nasıl işlediğini açıklar.</p>
+        <!-- ══════════ TÜRKÇE ══════════ -->
+        <div id="content-tr" class="content active">
+            <h1>DocScan — Gizlilik Politikası</h1>
 
-<h2>1. Toplanan Veriler</h2>
-<p>Kalıp Rehberi, kullanıcılardan doğrudan hiçbir kişisel veri toplamaz. Uygulama:</p>
-<ul>
-  <li>Hesap oluşturmanızı veya giriş yapmanızı istemez.</li>
-  <li>İsim, e-posta, telefon numarası veya konum bilgisi talep etmez.</li>
-  <li>Hiçbir veriyi kendi sunucusuna göndermez; uygulamanın bir sunucusu yoktur.</li>
-</ul>
+            <h2>1. Genel Bilgiler</h2>
+            <p>DocScan uygulaması ("Uygulama"), kullanıcı gizliliğine saygı duyarak tasarlanmıştır. Bu gizlilik politikası, uygulamanın veri işleme uygulamalarını açıklar.</p>
 
-<h2>2. Cihazda Saklanan Veriler</h2>
-<p>Aşağıdaki bilgiler yalnızca cihazınızda, uygulamanın kendi depolama alanında tutulur ve hiçbir yere iletilmez:</p>
-<ul>
-  <li><strong>Dil tercihi</strong> — seçtiğiniz arayüz dili (Türkçe, Rusça, İngilizce, Çince, İspanyolca).</li>
-  <li><strong>Favoriler</strong> — yıldızladığınız rehber, tadilat, kumaş ve sözlük terimleri.</li>
-  <li><strong>İlerleme</strong> — rehber ve tadilat adımlarında işaretlediğiniz "tamamlandı" durumları.</li>
-  <li><strong>Değerlendirme sayacı</strong> — uygulama içi değerlendirme isteğinin daha önce gösterilip gösterilmediği.</li>
-</ul>
-<p>Uygulamayı kaldırdığınızda bu veriler silinir. Hesaplayıcılara girdiğiniz değerler (bel ölçüsü, düğme çapı vb.) saklanmaz; ekran kapanınca kaybolur.</p>
+            <h2>2. Toplanan Veriler</h2>
+            <ul>
+                <li><strong>Tarama ve QR Verileri:</strong> Taradığınız belgeler, oluşturduğunuz PDF'ler, eklediğiniz notlar ve etiketler yalnızca cihazınızda saklanır. Sunuculara gönderilmez.</li>
+                <li><strong>Fotoğraflar:</strong> Belge tarama sırasında kamera görüntüsü işlenir. Görüntü işleme cihaz üzerinde yapılır ve kalıcı olarak dışarı aktarılmaz.</li>
+                <li><strong>Reklam ve Ölçüm Verileri:</strong> Uygulamada reklam gösterebilmek için Yandex Advertising Network SDK'sı kullanılır. Bu SDK, reklam gösterimi, ölçümü, analizi ve dolandırıcılık önleme amacıyla aşağıdaki verileri toplar ve Yandex ile paylaşır:
+                    <ul>
+                        <li>Cihaz veya diğer kimlikler (Reklam Kimliği / Advertising ID)</li>
+                        <li>Yaklaşık konum (IP adresinden türetilen, şehir düzeyinde)</li>
+                        <li>Uygulama içi etkileşimler (reklam görüntülenmesi ve tıklamalar)</li>
+                        <li>Diğer uygulama etkinliği</li>
+                        <li>Uygulama tanılama verileri (çökme ve performans kayıtları)</li>
+                    </ul>
+                    Bu veriler reklam sağlayıcısı tarafından toplanır; belgelerinizle veya notlarınızla ilişkilendirilmez. Reklam Kimliğini cihaz ayarlarınızdan sıfırlayabilir veya kişiselleştirilmiş reklamları kapatabilirsiniz.</li>
+                <li><strong>Kamera İzni:</strong> Yalnızca belge tarama ve QR okuma sırasında kullanılır.</li>
+            </ul>
 
-<h2>3. Reklamlar</h2>
-<p>Uygulama, Yandex Mobile Ads (Yango Ads) aracılığıyla banner ve geçiş (interstitial) reklamlar gösterir. Yandex, reklamları sunmak ve performansı ölçmek amacıyla reklam kimliği (Advertising ID) ve diğer cihaz tanımlayıcıları gibi verileri toplayabilir. Bu veri işleme Yandex'in kendi gizlilik politikasına tabidir:</p>
-<p><a href="https://yandex.com/legal/mobileads_sdk_agreement/" target="_blank" rel="noopener">https://yandex.com/legal/mobileads_sdk_agreement/</a></p>
-<p>Reklam kimliğinizi cihaz ayarlarından sıfırlayabilir veya kişiselleştirilmiş reklamları kapatabilirsiniz (Android: Ayarlar → Google → Reklamlar). Bu durumda reklamlar gösterilmeye devam eder ancak ilgi alanlarınıza göre uyarlanmaz.</p>
+            <h2>3. Verilerin Paylaşımı</h2>
+            <p><strong>Belgeleriniz, oluşturduğunuz PDF'ler, notlarınız ve etiketleriniz hiçbir üçüncü tarafla paylaşılmaz</strong> ve cihazınızdan çıkmaz.</p>
+            <p>Yalnızca yukarıdaki 2. maddede sayılan reklam ve ölçüm verileri, reklam sağlayıcımız Yandex Advertising Network ile paylaşılır. Bu paylaşım reklamcılık ve pazarlama, analiz, dolandırıcılık önleme ve güvenlik amaçlarıyla yapılır. Bu veriler reklam gösterebilmek için zorunludur; uygulama içinden kapatılamaz.</p>
 
-<h2>4. Üçüncü Taraf Web Siteleri</h2>
-<p>Uygulama, "Siteler" sekmesinden seçtiğiniz kalıp sitelerine (Burda Style, Vikisews, Shkatulka, Pattydoo, The Fold Line, Grasser, Lekala, HELPERSEW, VYKROİM, FreeSewing, DRCOS, Mood Sewciety) yönlendirir. Bu siteler kendi gizlilik politikalarına ve veri işleme uygulamalarına sahiptir; Kalıp Rehberi bunların içeriğinden veya veri uygulamalarından sorumlu değildir.</p>
+            <h2>4. Veri Güvenliği</h2>
+            <p>Reklam ve ölçüm verileri aktarım sırasında şifrelenerek (HTTPS) iletilir. Belgeleriniz uygulamanın özel dizininde saklanır ve başka uygulamalar tarafından erişilemez. İsterseniz kategori klasörlerinizi cihazınızın biyometrik kilidi (parmak izi / yüz tanıma) ile koruyabilirsiniz. Biyometrik doğrulama cihaz üzerinde yapılır; biyometrik verileriniz uygulamaya aktarılmaz.</p>
 
-<h2>5. Çeviri Hizmeti</h2>
-<p>Bazı sitelerin otomatik çevirisi için Google Translate proxy hizmeti (translate.goog) kullanılır. Bu hizmet Google tarafından sağlanır ve Google'ın gizlilik politikasına tabidir: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
+            <h2>5. İnternet Bağlantısı</h2>
+            <p>DocScan'in belge tarama, PDF oluşturma, görüntüye dönüştürme ve QR okuma özellikleri internet bağlantısı olmadan çalışır. İnternet yalnızca reklamların yüklenmesi ve uygulama güncelleme kontrolü için kullanılır.</p>
 
-<h2>6. Google Play Hizmetleri</h2>
-<p>Uygulama, Google Play In-App Review (uygulama içi değerlendirme) ve In-App Update (uygulama içi güncelleme) hizmetlerini kullanır. Bunlar Google tarafından sağlanır ve Google'ın gizlilik politikasına tabidir. Bu hizmetler sizden Play Store'da uygulamayı derecelendirmenizi isteyebilir veya yeni sürüm çıktığında bildirim gösterebilir.</p>
+            <h2>6. Üçüncü Taraf Hizmetleri</h2>
+            <ul>
+                <li><strong>Yandex Advertising Network</strong> — reklam gösterimi için.
+                    <a href="https://yandex.com/legal/confidential/" target="_blank" rel="noopener">Yandex Gizlilik Politikası</a></li>
+                <li><strong>Google Play Services (ML Kit, Document Scanner)</strong> — belge tarama ve barkod okuma için.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Gizlilik Politikası</a></li>
+                <li><strong>Google Play Core</strong> — uygulama içi güncelleme ve değerlendirme için.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Gizlilik Politikası</a></li>
+            </ul>
 
-<h2>7. İzinler</h2>
-<ul>
-  <li><strong>INTERNET</strong> — kalıp sitelerini açmak ve reklamları yüklemek için.</li>
-  <li><strong>ACCESS_NETWORK_STATE</strong> — ağ bağlantısının olup olmadığını kontrol etmek için (reklam SDK'sı tarafından kullanılır).</li>
-</ul>
-<p>Uygulama; konum, kamera, mikrofon, kişiler, dosyalar veya başka herhangi bir izin talep etmez. Rehberler, tadilat anlatımları, kumaş tablosu, sözlük ve hesaplayıcılar internet bağlantısı olmadan çalışır.</p>
+            <h2>7. Çocukların Gizliliği</h2>
+            <p>Uygulama 13 yaşın altındaki çocuklara yönelik değildir ve bilerek bu yaş grubundan kişisel veri toplamaz.</p>
 
-<h2>8. Çocukların Gizliliği</h2>
-<p>Kalıp Rehberi, 13 yaş altı çocuklara yönelik olarak tasarlanmamıştır ve bu yaş grubundan bilerek veri toplamaz.</p>
+            <h2>8. Haklarınız</h2>
+            <p>Uygulamayı cihazınızdan kaldırdığınızda tüm belgeleriniz, notlarınız ve ayarlarınız silinir. Belgeleri uygulama içinden tek tek veya toplu olarak da silebilirsiniz. Reklam kimliğinizi cihaz ayarlarından sıfırlayabilirsiniz.</p>
 
-<h2>9. Değişiklikler</h2>
-<p>Bu gizlilik politikası zaman zaman güncellenebilir. Güncel sürüm her zaman bu sayfada yayınlanır.</p>
+            <h2>9. İletişim</h2>
+            <p>Gizlilik ile ilgili sorularınız için: <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a><br>
+            Instagram: <a href="https://instagram.com/vbaogren" target="_blank" rel="noopener">@vbaogren</a></p>
 
-<hr>
+            <h2>10. Politika Güncellemeleri</h2>
+            <p>Bu gizlilik politikası zaman zaman güncellenebilir. Önemli değişiklikler uygulama içinde ve bu sayfada duyurulur.</p>
 
-<h1>Kullanım Şartları</h1>
+            <div class="footer">
+                <p>Son güncelleme: 24 Ağustos 2026 &nbsp;|&nbsp; DocScan v1.9</p>
+            </div>
+        </div>
 
-<h2>1. Kabul</h2>
-<p>Kalıp Rehberi'ni indirip kullanarak bu şartları kabul etmiş sayılırsınız. Şartları kabul etmiyorsanız uygulamayı kullanmayın.</p>
+        <!-- ══════════ ENGLISH ══════════ -->
+        <div id="content-en" class="content">
+            <h1>DocScan — Privacy Policy</h1>
 
-<h2>2. Hizmetin Niteliği</h2>
-<p>Uygulama, dikiş ve tadilat konusunda genel bilgi ve rehberlik sunar. İçerik eğitim ve bilgilendirme amaçlıdır; belirli bir kumaş, kıyafet veya makine için garanti niteliği taşımaz. Kesim, dikim ve tadilat işlemleri geri alınamaz olabilir; önemli veya değerli bir parça üzerinde çalışmadan önce artık kumaşta deneme yapmanız önerilir.</p>
+            <h2>1. General Information</h2>
+            <p>The DocScan application ("App") is designed with respect for user privacy. This privacy policy explains the app's data processing practices.</p>
 
-<h2>3. Sorumluluğun Sınırı</h2>
-<p>Uygulamadaki bilgilerin uygulanmasından doğan kumaş, kıyafet, malzeme veya ekipman hasarlarından, yanlış ölçü ya da hesaplama sonuçlarından geliştirici sorumlu tutulamaz. Hesaplayıcılar yaklaşık değerler verir; kesin miktar için kalıp talimatlarını ve kumaş etiketini esas alın.</p>
+            <h2>2. Data Collected</h2>
+            <ul>
+                <li><strong>Scanning and QR Data:</strong> Your scanned documents, generated PDFs, notes and tags are stored only on your device. They are never sent to any server.</li>
+                <li><strong>Photos:</strong> The camera image is processed during document scanning. Image processing happens on the device and is not permanently exported.</li>
+                <li><strong>Advertising and Measurement Data:</strong> The app uses the Yandex Advertising Network SDK to display ads. For ad delivery, measurement, analytics and fraud prevention, this SDK collects and shares the following with Yandex:
+                    <ul>
+                        <li>Device or other identifiers (Advertising ID)</li>
+                        <li>Approximate location (city level, derived from IP address)</li>
+                        <li>In-app interactions (ad impressions and clicks)</li>
+                        <li>Other app activity</li>
+                        <li>App diagnostics (crash and performance logs)</li>
+                    </ul>
+                    This data is collected by the ad provider and is never linked to your documents or notes. You can reset your Advertising ID or opt out of personalized ads in your device settings.</li>
+                <li><strong>Camera Permission:</strong> Used only during document scanning and QR reading.</li>
+            </ul>
 
-<h2>4. Üçüncü Taraf İçerikleri</h2>
-<p>Uygulamadan erişilen kalıp siteleri bağımsız üçüncü taraflardır. Bu sitelerdeki ürünler, fiyatlar, teslimat ve destek konularında geliştiricinin herhangi bir sorumluluğu veya bağlantısı yoktur. Otomatik çeviri ile açılan sayfalarda çeviri hataları olabilir.</p>
+            <h2>3. Data Sharing</h2>
+            <p><strong>Your documents, generated PDFs, notes and tags are never shared with any third party</strong> and never leave your device.</p>
+            <p>Only the advertising and measurement data listed in section 2 is shared with our ad provider, Yandex Advertising Network, for advertising and marketing, analytics, fraud prevention and security purposes. This data is required in order to serve ads and cannot be disabled from within the app.</p>
 
-<h2>5. Fikri Mülkiyet</h2>
-<p>Uygulamanın kaynak kodu, rehber metinleri, teknik çizimleri ve tasarımı geliştiriciye aittir. Kişisel kullanım serbesttir; içeriğin ticari amaçla kopyalanması, dağıtılması veya başka uygulamalarda kullanılması izne tabidir.</p>
+            <h2>4. Data Security</h2>
+            <p>Advertising and measurement data is transmitted over an encrypted connection (HTTPS). Your documents are stored in the app's private directory and cannot be accessed by other apps. You may optionally protect category folders with your device's biometric lock (fingerprint / face recognition). Biometric verification is performed by the device; your biometric data is never transferred to the app.</p>
 
-<h2>6. Reklamlar</h2>
-<p>Uygulama ücretsizdir ve reklam desteğiyle sunulur. Reklam engelleyici kullanılması veya reklamların manipüle edilmesi bu şartlara aykırıdır.</p>
+            <h2>5. Internet Connection</h2>
+            <p>DocScan's document scanning, PDF creation, image conversion and QR reading features work without an internet connection. Internet is used only to load ads and to check for app updates.</p>
 
-<h2>7. Değişiklikler ve Sonlandırma</h2>
-<p>Geliştirici, uygulamayı, içeriğini ve bu şartları önceden bildirim yapmaksızın güncelleyebilir veya hizmeti sonlandırabilir.</p>
+            <h2>6. Third-Party Services</h2>
+            <ul>
+                <li><strong>Yandex Advertising Network</strong> — for serving ads.
+                    <a href="https://yandex.com/legal/confidential/" target="_blank" rel="noopener">Yandex Privacy Policy</a></li>
+                <li><strong>Google Play Services (ML Kit, Document Scanner)</strong> — for document scanning and barcode reading.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+                <li><strong>Google Play Core</strong> — for in-app updates and reviews.
+                    <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
+            </ul>
 
-<h2>8. İletişim</h2>
-<p>Gizlilik politikası veya kullanım şartlarıyla ilgili sorularınız için: <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a></p>
+            <h2>7. Children's Privacy</h2>
+            <p>The app is not directed at children under 13 and does not knowingly collect personal data from them.</p>
 
+            <h2>8. Your Rights</h2>
+            <p>Uninstalling the app removes all your documents, notes and settings from your device. You can also delete documents individually or in bulk from within the app. You may reset your Advertising ID in your device settings at any time.</p>
+
+            <h2>9. Contact</h2>
+            <p>For privacy questions: <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a><br>
+            Instagram: <a href="https://instagram.com/vbaogren" target="_blank" rel="noopener">@vbaogren</a></p>
+
+            <h2>10. Policy Updates</h2>
+            <p>This privacy policy may be updated from time to time. Significant changes will be announced in the app and on this page.</p>
+
+            <div class="footer">
+                <p>Last updated: August 24, 2026 &nbsp;|&nbsp; DocScan v1.9</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showLanguage(lang) {
+            document.getElementById('content-tr').classList.remove('active');
+            document.getElementById('content-en').classList.remove('active');
+            document.getElementById('content-' + lang).classList.add('active');
+            document.getElementById('btn-tr').classList.remove('active');
+            document.getElementById('btn-en').classList.remove('active');
+            document.getElementById('btn-' + lang).classList.add('active');
+        }
+    </script>
 </body>
 </html>
