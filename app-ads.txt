@@ -175,3 +175,5 @@ hyperad.tech, 215, RESELLER
 betweendigital.com, 43554, RESELLER
 Contextweb.com, 562899, RESELLER, 89ff185a4c4e857c
 hyperad.tech, 150, RESELLER
+yango-ads.com, 330704023, DIRECT
+yandex.com, 330704023, DIRECT
