@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gizlilik Politikası — Türkçe-Arapça Öğreniyorum</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --kagit: #f4f7f7;
+    --murekkep: #14212b;
+    --turkuaz: #1a6e78;
+    --soguk: #5e7079;
+    --cizgi: #b4c3c6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --kagit:#0e1619; --murekkep:#dde4e5; --soguk:#a9bbc0; --cizgi:#53666c; --turkuaz:#69c4cb; }
+  }
+  body {
+    margin: 0; padding: 32px 20px 64px;
+    background: var(--kagit); color: var(--murekkep);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.65;
+  }
+  main { max-width: 42rem; margin: 0 auto; }
+  h1 { font-size: 1.6rem; line-height: 1.3; margin: 0 0 .25rem; }
+  h2 { font-size: 1.15rem; margin: 2.2rem 0 .5rem; color: var(--turkuaz); }
+  .tarih { color: var(--soguk); font-size: .9rem; margin: 0 0 2rem; }
+  ul { padding-inline-start: 1.25rem; }
+  li { margin-bottom: .4rem; }
+  hr { border: 0; border-top: 1px solid var(--cizgi); margin: 3.5rem 0; }
+  section[dir="rtl"] { text-align: right; }
+  a { color: var(--turkuaz); }
+  .kutu {
+    border-inline-start: 3px solid var(--turkuaz);
+    padding: .75rem 1rem; margin: 1.5rem 0;
+    background: rgba(26,110,120,.07);
+  }
+</style>
+</head>
+<body>
+<main>
+
+<section lang="tr" dir="ltr">
+  <h1>Gizlilik Politikası</h1>
+  <p class="tarih">Türkçe-Arapça Öğreniyorum · Son güncelleme: 18 Ekim 2026</p>
+
+  <div class="kutu">
+    Bu uygulama hesap açmanızı istemez, kişisel bilgilerinizi toplamaz ve
+    öğrenme verilerinizi hiçbir sunucuya göndermez.
+  </div>
+
+  <h2>Hangi bilgiler cihazınızda kalır</h2>
+  <p>Uygulama şunları yalnızca telefonunuzun hafızasında saklar:</p>
+  <ul>
+    <li>Öğrenme yönü tercihiniz (Arapça mı Türkçe mi öğreniyorsunuz)</li>
+    <li>Seviye sınavı sonucunuz ve hangi kelimeleri çalıştığınız</li>
+    <li>Günlük hedef, hatırlatma saati ve arayüz dili ayarlarınız</li>
+  </ul>
+  <p>
+    Bu kayıtlar uygulamayı sildiğinizde telefonunuzdan birlikte silinir.
+    Ayarlar ekranındaki "İlerlemeyi sıfırla" düğmesiyle de istediğiniz zaman
+    temizleyebilirsiniz.
+  </p>
+
+  <h2>Reklamlar</h2>
+  <p>
+    Uygulama ücretsizdir ve reklamla desteklenir. Reklamlar Yango Ads
+    (Yandex Mobile Ads SDK) üzerinden gösterilir. Bu reklam altyapısı
+    reklamları seçebilmek için cihazınızın reklam kimliğini ve yaklaşık
+    konum, cihaz modeli gibi teknik bilgileri işleyebilir.
+  </p>
+  <p>
+    Android ayarlarından reklam kimliğinizi sıfırlayabilir veya kişiselleştirilmiş
+    reklamları kapatabilirsiniz. Yango Ads'in kendi gizlilik koşulları için
+    <a href="https://yango-ads.com/">yango-ads.com</a> adresine bakabilirsiniz.
+  </p>
+
+  <h2>Seslendirme</h2>
+  <p>
+    Dinleme özelliği telefonunuzda kurulu metin okuma motorunu (genellikle
+    Google Speech Services) kullanır. Uygulama ses kaydı yapmaz, mikrofona
+    erişmez.
+  </p>
+
+  <h2>İzinler</h2>
+  <ul>
+    <li><strong>İnternet:</strong> yalnızca reklam göstermek için</li>
+    <li><strong>Bildirim:</strong> günlük çalışma hatırlatması için; reddedebilirsiniz, uygulama çalışmaya devam eder</li>
+  </ul>
+
+  <h2>Çocuklar</h2>
+  <p>
+    Uygulama çocuklara yönelik değildir ve çocuklardan bilerek bilgi toplamaz.
+  </p>
+
+  <h2>İletişim</h2>
+  <p>
+    Soru ve talepleriniz için:
+    <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a>
+  </p>
+</section>
+
+<hr>
+
+<section lang="ar" dir="rtl">
+  <h1>سياسة الخصوصية</h1>
+  <p class="tarih">أتعلّم التركية والعربية · آخر تحديث: ١٨ تشرين الأول ٢٠٢٦</p>
+
+  <div class="kutu">
+    لا يطلب منك هذا التطبيق إنشاء حساب، ولا يجمع معلوماتك الشخصية،
+    ولا يرسل بيانات تعلّمك إلى أي خادم.
+  </div>
+
+  <h2>ما الذي يبقى على جهازك</h2>
+  <p>يحفظ التطبيق ما يلي في ذاكرة هاتفك فقط:</p>
+  <ul>
+    <li>اتجاه التعلّم الذي اخترته (العربية أم التركية)</li>
+    <li>نتيجة اختبار تحديد المستوى والكلمات التي درستها</li>
+    <li>الهدف اليومي ووقت التذكير ولغة الواجهة</li>
+  </ul>
+  <p>
+    تُحذف هذه السجلات مع التطبيق عند إزالته. ويمكنك مسحها في أي وقت
+    بزرّ «إعادة ضبط التقدّم» في شاشة الإعدادات.
+  </p>
+
+  <h2>الإعلانات</h2>
+  <p>
+    التطبيق مجاني ويُموَّل بالإعلانات، وتُعرض عبر Yango Ads
+    (حزمة Yandex Mobile Ads). قد تعالج هذه المنظومة معرّف الإعلانات
+    الخاص بجهازك ومعلومات تقنية مثل الموقع التقريبي وطراز الجهاز
+    لاختيار الإعلانات المناسبة.
+  </p>
+  <p>
+    يمكنك إعادة ضبط معرّف الإعلانات أو إيقاف الإعلانات المخصّصة من
+    إعدادات أندرويد.
+  </p>
+
+  <h2>النطق الصوتي</h2>
+  <p>
+    تستخدم ميزة الاستماع محرّك تحويل النص إلى كلام المثبّت على هاتفك
+    (غالبًا Google Speech Services). لا يسجّل التطبيق صوتًا ولا يصل
+    إلى الميكروفون.
+  </p>
+
+  <h2>الأذونات</h2>
+  <ul>
+    <li><strong>الإنترنت:</strong> لعرض الإعلانات فقط</li>
+    <li><strong>الإشعارات:</strong> للتذكير اليومي بالدراسة، ويمكنك رفضه ويستمرّ التطبيق في العمل</li>
+  </ul>
+
+  <h2>الأطفال</h2>
+  <p>
+    التطبيق غير موجّه للأطفال ولا يجمع معلومات منهم عن قصد.
+  </p>
+
+  <h2>التواصل</h2>
+  <p>
+    للأسئلة والطلبات:
+    <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a>
+  </p>
+</section>
+
+</main>
+</body>
+</html>
