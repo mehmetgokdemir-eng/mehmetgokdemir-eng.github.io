@@ -13,7 +13,8 @@
  * Ortam değişkenleri:
  *   GEMINI_API_KEY  (zorunlu)
  *   BACKLOG         (varsayılan 120)  bir çalışmada üretilecek arşiv metni sayısı
- *   MODEL           (varsayılan gemini-3.1-flash-lite)
+ *   MODEL           (varsayilan: gemini-3.1-flash-lite,gemini-2.5-flash,gemini-flash-latest)
+ *                   virgulle ayrilmis model listesi; yanit vermeyen atlanir
  *   CIKTI           (varsayılan kahvefali)
  */
 
@@ -24,7 +25,14 @@ import { dirname, join } from 'node:path';
 // ─────────────────────────── Ayarlar ───────────────────────────
 
 const API_KEY = process.env.GEMINI_API_KEY;
-const MODEL   = process.env.MODEL || 'gemini-3.1-flash-lite';
+/**
+ * Model listesi, tercih sırasına göre virgülle ayrılır.
+ * Bir model üst üste 503/404 verirse sıradakine geçilir ve çalışmanın
+ * geri kalanında o model kullanılmaya devam eder.
+ */
+const MODELS = (process.env.MODEL ||
+  'gemini-3.1-flash-lite,gemini-2.5-flash,gemini-flash-latest')
+  .split(',').map(s => s.trim()).filter(Boolean);
 const BACKLOG = Number(process.env.BACKLOG || 120);
 const OUT     = process.env.CIKTI || 'kahvefali';
 /** İki çağrı arası bekleme (ms). Dakikalık istek limitine takılmamak için. */
@@ -111,9 +119,17 @@ function markdownTemizle(s) {
     .trim();
 }
 
-/** Gemini çağrısı — 429/503 gibi geçici hatalarda artan beklemeyle yeniden dener. */
+/** O an kullanılan modelin MODELS listesindeki sırası. */
+let aktifModel = 0;
+
+/**
+ * Gemini çağrısı.
+ *
+ * Geçici hatalarda (429 limit, 503 yoğunluk) artan beklemeyle yeniden dener.
+ * Model üç denemede de yanıt vermezse — ya da hiç bulunamazsa (404) —
+ * listedeki bir sonraki modele geçer ve çalışmanın kalanında onu kullanır.
+ */
 async function gemini(systemPrompt, userText, maxOutputTokens) {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
   const body = {
     system_instruction: { parts: [{ text: systemPrompt }] },
     contents: [{ role: 'user', parts: [{ text: userText }] }],
@@ -123,36 +139,71 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
     },
   };
 
-  let bekleme = 5000;
-  for (let deneme = 1; deneme <= 5; deneme++) {
-    let res;
-    try {
-      res = await fetch(url, {
-        method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-goog-api-key': API_KEY },
-        body: JSON.stringify(body),
-      });
-    } catch (e) {
-      console.warn(`  ag hatasi (${deneme}/5): ${e.message}`);
-      await bekle(bekleme); bekleme *= 2; continue;
+  let sonHata = 'bilinmiyor';
+
+  for (let mi = aktifModel; mi < MODELS.length; mi++) {
+    const model = MODELS[mi];
+    const url =
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+    let bekleme = 5000;
+    for (let deneme = 1; deneme <= 3; deneme++) {
+      let res;
+      try {
+        res = await fetch(url, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json', 'x-goog-api-key': API_KEY },
+          body: JSON.stringify(body),
+        });
+      } catch (e) {
+        sonHata = `ag hatasi: ${e.message}`;
+        console.warn(`  ${model}: ${sonHata} (${deneme}/3)`);
+        await bekle(bekleme); bekleme *= 2; continue;
+      }
+
+      // Geçici hata: bekleyip aynı modelle tekrar dene
+      if (res.status === 429 || res.status >= 500) {
+        const govde = (await res.text()).replace(/\s+/g, ' ').slice(0, 200);
+        sonHata = `HTTP ${res.status}: ${govde}`;
+        console.warn(
+          `  ${model}: HTTP ${res.status} — ${bekleme / 1000}sn bekleniyor (${deneme}/3)`
+        );
+        if (deneme === 1 && govde) console.warn(`    yanit: ${govde}`);
+        await bekle(bekleme); bekleme *= 2; continue;
+      }
+
+      // Model yok / erişim yok: beklemeden sıradaki modele geç
+      if (res.status === 404 || res.status === 403) {
+        const govde = (await res.text()).replace(/\s+/g, ' ').slice(0, 200);
+        sonHata = `HTTP ${res.status}: ${govde}`;
+        console.warn(`  ${model}: HTTP ${res.status} — siradaki modele geciliyor`);
+        break;
+      }
+
+      // Kalıcı hata (400 gibi): model değiştirmek işe yaramaz
+      if (!res.ok) {
+        const govde = (await res.text()).replace(/\s+/g, ' ').slice(0, 300);
+        throw new Error(`HTTP ${res.status}: ${govde}`);
+      }
+
+      const json = await res.json();
+      const text = (json.candidates?.[0]?.content?.parts || [])
+        .map(p => p.text).filter(Boolean).join('\n').trim();
+      if (!text) throw new Error('Bos yanit geldi');
+
+      if (mi !== aktifModel) {
+        console.log(`  >> Model degisti: ${MODELS[aktifModel]} -> ${model}`);
+        aktifModel = mi;
+      }
+      return markdownTemizle(text);
     }
 
-    if (res.status === 429 || res.status === 503 || res.status >= 500) {
-      console.warn(`  HTTP ${res.status} — ${bekleme / 1000}sn bekleniyor (${deneme}/5)`);
-      await bekle(bekleme); bekleme *= 2; continue;
+    if (mi + 1 < MODELS.length) {
+      console.warn(`  ${model} yanit vermiyor, "${MODELS[mi + 1]}" deneniyor`);
     }
-    if (!res.ok) {
-      const t = await res.text();
-      throw new Error(`HTTP ${res.status}: ${t.slice(0, 300)}`);
-    }
-
-    const json = await res.json();
-    const text = (json.candidates?.[0]?.content?.parts || [])
-      .map(p => p.text).filter(Boolean).join('\n').trim();
-    if (!text) throw new Error('Bos yanit geldi');
-    return markdownTemizle(text);
   }
-  throw new Error('5 denemede de alinamadi');
+
+  throw new Error(`Hicbir model yanit vermedi (son hata: ${sonHata})`);
 }
 
 /** Uygulamadaki looksComplete kontrolünün karşılığı. */
@@ -358,7 +409,7 @@ for (const lang of LANGS) {
 await jsonYaz(join(OUT, 'surum.json'), {
   updated: new Date().toISOString(),
   date: gun,
-  model: MODEL,
+  model: MODELS[aktifModel],
 });
 
 console.log(`\n=== OZET ===`);
