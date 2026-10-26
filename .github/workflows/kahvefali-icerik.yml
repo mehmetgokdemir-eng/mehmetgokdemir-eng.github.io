@@ -9,6 +9,10 @@ on:
         description: 'Bu calismada uretilecek arsiv metni sayisi'
         required: false
         default: '120'
+      model:
+        description: 'Model listesi (virgulle, bos birakilirsa betikteki varsayilan)'
+        required: false
+        default: ''
 
 permissions:
   contents: write
@@ -35,6 +39,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           BACKLOG: ${{ github.event.inputs.backlog || '120' }}
+          MODEL: ${{ github.event.inputs.model || '' }}
         run: node tools/kahvefali/uret.mjs
 
       - name: Degisiklikleri yayinla
