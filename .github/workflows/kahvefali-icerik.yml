@@ -2,7 +2,10 @@ name: Kahve Sirlari icerik uretimi
 
 on:
   schedule:
+    # 01:20 UTC = TR 04:20 — yalnizca gunluk burc (backlog 0)
     - cron: '20 1 * * *'
+    # 10:00 UTC = TR 13:00, ABD gecesi — agir arsiv uretimi (backlog 150)
+    - cron: '0 10 * * *'
   workflow_dispatch:
     inputs:
       backlog:
@@ -38,7 +41,7 @@ jobs:
       - name: Icerikleri uret
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          BACKLOG: ${{ github.event.inputs.backlog || '120' }}
+          BACKLOG: ${{ github.event.schedule == '20 1 * * *' && '0' || github.event.schedule == '0 10 * * *' && '150' || github.event.inputs.backlog || '120' }}
           MODEL: ${{ github.event.inputs.model || '' }}
         run: node tools/kahvefali/uret.mjs
 
