@@ -1,0 +1,368 @@
+#!/usr/bin/env node
+/**
+ * Kahve Sırları — merkezi içerik üretici.
+ *
+ * Günde bir kez çalışır ve şunları üretip "kahvefali/" klasörüne JSON yazar:
+ *   1) Günlük burç yorumu   -> kahvefali/burc/<dil>/<burc>.json      (her gün yenilenir)
+ *   2) Burç rehberi         -> kahvefali/rehber/<dil>/<burc>.json    (bir kez, kalıcı)
+ *   3) Burç uyumu           -> kahvefali/uyum/<dil>/<a>__<b>.json    (bir kez, kalıcı)
+ *
+ * Günlük burç her çalışmada mutlaka üretilir. Kalan bütçe, eksik rehber ve
+ * uyum metinlerini tamamlamak için kullanılır; böylece arşiv zamanla dolar.
+ *
+ * Ortam değişkenleri:
+ *   GEMINI_API_KEY  (zorunlu)
+ *   BACKLOG         (varsayılan 120)  bir çalışmada üretilecek arşiv metni sayısı
+ *   MODEL           (varsayılan gemini-3.1-flash-lite)
+ *   CIKTI           (varsayılan kahvefali)
+ */
+
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+
+// ─────────────────────────── Ayarlar ───────────────────────────
+
+const API_KEY = process.env.GEMINI_API_KEY;
+const MODEL   = process.env.MODEL || 'gemini-3.1-flash-lite';
+const BACKLOG = Number(process.env.BACKLOG || 120);
+const OUT     = process.env.CIKTI || 'kahvefali';
+/** İki çağrı arası bekleme (ms). Dakikalık istek limitine takılmamak için. */
+const GECIKME = Number(process.env.GECIKME || 1200);
+
+if (!API_KEY) {
+  console.error('HATA: GEMINI_API_KEY tanimli degil.');
+  process.exit(1);
+}
+
+/** Uygulamadaki Zodiacs.all ile birebir aynı sıra ve id'ler. */
+const ZODIACS = [
+  { id: 'aries',       tr: 'Koç' },
+  { id: 'taurus',      tr: 'Boğa' },
+  { id: 'gemini',      tr: 'İkizler' },
+  { id: 'cancer',      tr: 'Yengeç' },
+  { id: 'leo',         tr: 'Aslan' },
+  { id: 'virgo',       tr: 'Başak' },
+  { id: 'libra',       tr: 'Terazi' },
+  { id: 'scorpio',     tr: 'Akrep' },
+  { id: 'sagittarius', tr: 'Yay' },
+  { id: 'capricorn',   tr: 'Oğlak' },
+  { id: 'aquarius',    tr: 'Kova' },
+  { id: 'pisces',      tr: 'Balık' },
+];
+
+/** Uygulamanın desteklediği 12 dil. */
+const LANGS = ['tr', 'en', 'de', 'es', 'fr', 'ru', 'pt', 'ar', 'fa', 'hi', 'id', 'zh'];
+
+/**
+ * Burç rehberi TR, EN, DE, ES, FR dillerinde uygulamanın içinde hazır.
+ * Bu diller için uzak metin üretmeye gerek yok.
+ */
+const REHBER_LANGS = LANGS.filter(l => !['tr', 'en', 'de', 'es', 'fr'].includes(l));
+
+/** Uygulamadaki langInstruction ile birebir aynı. */
+const LANG_INSTRUCTION = {
+  en: 'Respond in English.',
+  de: 'Antworte auf Deutsch.',
+  es: 'Responde en español.',
+  fr: 'Réponds en français.',
+  ru: 'Отвечай на русском языке.',
+  pt: 'Responde em português.',
+  ar: 'أجب باللغة العربية.',
+  fa: 'به زبان فارسی پاسخ بده.',
+  hi: 'उत्तर हिंदी में दें।',
+  id: 'Jawab dalam bahasa Indonesia.',
+  zh: '請用繁體中文回答。',
+  tr: 'Yanıtı Türkçe ver.',
+};
+
+const SON_NOKTALAMA = ['.', '!', '?', '…', '"', ')', '。', '۔', '।'];
+
+// ─────────────────────────── Yardımcılar ───────────────────────────
+
+const bugun = () => new Date().toISOString().slice(0, 10);
+
+const bekle = ms => new Promise(r => setTimeout(r, ms));
+
+async function jsonOku(path) {
+  if (!existsSync(path)) return null;
+  try { return JSON.parse(await readFile(path, 'utf8')); }
+  catch { return null; }
+}
+
+async function jsonYaz(path, data) {
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(path, JSON.stringify(data, null, 1) + '\n', 'utf8');
+}
+
+/**
+ * Uygulamadaki TextClean.stripMarkdown'un karşılığı:
+ * modelin araya serpiştirdiği markdown işaretlerini temizler.
+ */
+function markdownTemizle(s) {
+  return s
+    .replace(/^#{1,6}\s*/gm, '')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/__(.+?)__/g, '$1')
+    .replace(/^\s*[-*+]\s+/gm, '')
+    .replace(/`{1,3}/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+/** Gemini çağrısı — 429/503 gibi geçici hatalarda artan beklemeyle yeniden dener. */
+async function gemini(systemPrompt, userText, maxOutputTokens) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
+  const body = {
+    system_instruction: { parts: [{ text: systemPrompt }] },
+    contents: [{ role: 'user', parts: [{ text: userText }] }],
+    generationConfig: {
+      maxOutputTokens,
+      thinkingConfig: { thinkingLevel: 'low' },
+    },
+  };
+
+  let bekleme = 5000;
+  for (let deneme = 1; deneme <= 5; deneme++) {
+    let res;
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-goog-api-key': API_KEY },
+        body: JSON.stringify(body),
+      });
+    } catch (e) {
+      console.warn(`  ag hatasi (${deneme}/5): ${e.message}`);
+      await bekle(bekleme); bekleme *= 2; continue;
+    }
+
+    if (res.status === 429 || res.status === 503 || res.status >= 500) {
+      console.warn(`  HTTP ${res.status} — ${bekleme / 1000}sn bekleniyor (${deneme}/5)`);
+      await bekle(bekleme); bekleme *= 2; continue;
+    }
+    if (!res.ok) {
+      const t = await res.text();
+      throw new Error(`HTTP ${res.status}: ${t.slice(0, 300)}`);
+    }
+
+    const json = await res.json();
+    const text = (json.candidates?.[0]?.content?.parts || [])
+      .map(p => p.text).filter(Boolean).join('\n').trim();
+    if (!text) throw new Error('Bos yanit geldi');
+    return markdownTemizle(text);
+  }
+  throw new Error('5 denemede de alinamadi');
+}
+
+/** Uygulamadaki looksComplete kontrolünün karşılığı. */
+function tamMi(text, minUzunluk) {
+  return text.length >= minUzunluk && SON_NOKTALAMA.includes(text.trimEnd().slice(-1));
+}
+
+// ─────────────────────────── İstemler (uygulamayla birebir) ───────────────────────────
+
+function burcPrompt(lang) {
+  return 'Sen deneyimli bir astrologsun. ' +
+    'Verilen burç için BUGÜNE özel, kapsamlı ve umut verici bir günlük yorum yaz. ' +
+    'Yorumu şu başlıklar altında, her başlık için ayrı paragrafla yaz:\n' +
+    'GÜNÜN GENEL ENERJİSİ — günün genel havası, öne çıkan tema, ruh hâli.\n' +
+    'AŞK VE İLİŞKİLER — ilişkisi olanlar ve bekârlar için ayrı ayrı birkaç cümle.\n' +
+    'İŞ VE KARİYER — iş yerinde bugün dikkat edilmesi gerekenler, fırsatlar.\n' +
+    'PARA VE BEREKET — maddi konular, harcama ve kazanç eğilimi.\n' +
+    'SAĞLIK VE ENERJİ — bedensel ve zihinsel durum, öneriler.\n' +
+    'İLETİŞİM VE ÇEVRE — aile, arkadaşlar ve sosyal ortam.\n' +
+    'GÜNÜN TAVSİYESİ — kısa, akılda kalıcı bir öneri.\n' +
+    'GÜNÜN DETAYLARI — şanslı sayı, şanslı renk ve uyumlu burç.\n' +
+    'Başlıkları büyük harfle yaz, altına açıklamayı ekle. ' +
+    'Her bölüm en az 3-4 cümle olsun; yüzeysel geçme, somut ve akıcı yaz. ' +
+    'Mistik ama samimi, sıcak bir dil kullan; okuyanı iyi hissettir. ' +
+    'Toplam 500-700 kelime olsun. ' +
+    'ÇOK ÖNEMLİ: Yukarıdaki bölüm başlıkları sana Türkçe verildi. ' +
+    'Bu başlıkları AYNEN kopyalama; hedef dile çevirerek yaz. ' +
+    'Yanıtın tamamı — başlıklar dahil — hedef dilde olmalı; ' +
+    'tek bir Türkçe kelime bile bulunmamalı. ' +
+    (LANG_INSTRUCTION[lang] || LANG_INSTRUCTION.tr);
+}
+
+function rehberPrompt(lang) {
+  return 'Sen deneyimli bir astrologsun. Verilen burcun kapsamlı bir rehber ' +
+    'metnini yaz. Metni şu başlıklar altında, her başlık için ayrı ' +
+    'paragrafla yaz:\n' +
+    'GENEL KARAKTER — burcun özü, elementi, yönetici gezegeni ve nitelikleri.\n' +
+    'AŞK VE İLİŞKİLER — nasıl sever, nasıl bağlanır, ne bekler.\n' +
+    'İŞ VE KARİYER — uygun meslekler, çalışma tarzı, güçlü olduğu alanlar.\n' +
+    'PARA — kazanma ve harcama eğilimi.\n' +
+    'ARKADAŞLIK VE AİLE — yakın ilişkilerdeki tavrı.\n' +
+    'GÜÇLÜ YÖNLERİ — öne çıkan olumlu özellikler.\n' +
+    'DİKKAT ETMESİ GEREKENLER — zorlandığı yanlar, yapıcı biçimde.\n' +
+    'ÜÇ DEKAN — burcun kendi içindeki üç dönemi, tarihleriyle ve ' +
+    'her dönemin farkıyla.\n' +
+    'STRES ALTINDA — zorlandığında nasıl davranır, ne iyi gelir.\n' +
+    'SAĞLIK EĞİLİMİ — burcun yönettiği beden bölgesi ve dikkat edilecekler.\n' +
+    'ÖĞRENME VE İLETİŞİM TARZI — nasıl öğrenir, nasıl konuşur.\n' +
+    'EV VE YAŞAM ALANI — yaşadığı mekânı nasıl kurar.\n' +
+    'HEDİYE ÖNERİSİ — bu burca ne alınır.\n' +
+    'RUHSAL DERSİ — hayat boyu öğrenmesi gereken şey.\n' +
+    'UYUMLU OLDUĞU BURÇLAR — hangi burçlarla nasıl geçinir.\n' +
+    'Başlıkları büyük harfle yaz, altına açıklamayı ekle. ' +
+    'Her bölüm en az 3-4 cümle olsun; yüzeysel geçme. ' +
+    'Sıcak, samimi ve olumlu bir dil kullan. ' +
+    'Toplam 900-1200 kelime olsun. ' +
+    'ÇOK ÖNEMLİ: Yukarıdaki bölüm başlıkları sana Türkçe verildi. ' +
+    'Bu başlıkları AYNEN kopyalama; hedef dile çevirerek yaz. ' +
+    'Yanıtın tamamı — başlıklar dahil — hedef dilde olmalı; ' +
+    'tek bir Türkçe kelime bile bulunmamalı. ' +
+    (LANG_INSTRUCTION[lang] || LANG_INSTRUCTION.tr);
+}
+
+function uyumPrompt(lang) {
+  return 'Sen deneyimli bir ilişki astroloğusun. ' +
+    'Verilen iki kişi arasındaki astrolojik uyumu kapsamlı biçimde yorumla. ' +
+    'Yorumu şu başlıklar altında, her başlık için ayrı paragrafla yaz:\n' +
+    'UYUM PUANI — 100 üzerinden bir puan ver ve tek cümleyle gerekçelendir.\n' +
+    'GENEL UYUM — iki burcun elementleri ve nitelikleri nasıl etkileşiyor.\n' +
+    'İLK TANIŞMA — birbirlerinde ilk neyi fark ederler, çekim nereden doğar.\n' +
+    'GÜÇLÜ YANLARI — bu ilişkiyi ayakta tutan, birbirini besleyen yönler.\n' +
+    'ANLAŞAMADIKLARI KONULAR — en sık çatıştıkları somut konular. ' +
+    'Bu bölüm en ayrıntılı bölüm olsun; para, ev düzeni, sosyal hayat, ' +
+    'kıskançlık, karar alma, aile ilişkileri gibi günlük hayattan örnekler ver.\n' +
+    'İLETİŞİM — nasıl konuşurlar, tartışma anında ne olur, ne işe yarar.\n' +
+    'DUYGUSAL YAKINLIK — sevgiyi ifade biçimleri örtüşüyor mu.\n' +
+    'UZUN VADE — birlikte yaşam, ortak hedefler, zamanla ne değişir.\n' +
+    'HER İKİSİNE TAVSİYE — iki tarafa ayrı ayrı birer öneri.\n' +
+    'Başlıkları büyük harfle yaz, altına açıklamayı ekle. ' +
+    'Her bölüm en az 3-4 cümle olsun; yüzeysel geçme. ' +
+    'Dengeli ol: zor yanları dürüstçe söyle ama umutsuz bir tablo çizme, ' +
+    'her çiftin işleyebileceğini ve neyin çaba gerektirdiğini belirt. ' +
+    'Sıcak ve samimi bir dil kullan. Toplam 700-900 kelime olsun. ' +
+    'ÇOK ÖNEMLİ: Yukarıdaki bölüm başlıkları sana Türkçe verildi. ' +
+    'Bu başlıkları AYNEN kopyalama; hedef dile çevirerek yaz. ' +
+    'Yanıtın tamamı — başlıklar dahil — hedef dilde olmalı; ' +
+    'tek bir Türkçe kelime bile bulunmamalı. ' +
+    (LANG_INSTRUCTION[lang] || LANG_INSTRUCTION.tr);
+}
+
+// ─────────────────────────── Görev listeleri ───────────────────────────
+
+/** 12 burç × 2 cinsiyet = 24 kişi tipi; sırasız çiftler = 300 kombinasyon. */
+function uyumCiftleri() {
+  const kisiler = [];
+  for (const z of ZODIACS) for (const c of ['F', 'M']) kisiler.push(`${z.id}-${c}`);
+  kisiler.sort();
+
+  const ciftler = [];
+  for (let i = 0; i < kisiler.length; i++) {
+    for (let j = i; j < kisiler.length; j++) {
+      ciftler.push([kisiler[i], kisiler[j]]);
+    }
+  }
+  return ciftler;
+}
+
+function kisiEtiketi(token) {
+  const [id, c] = token.split('-');
+  const z = ZODIACS.find(x => x.id === id);
+  return c === 'F' ? `${z.tr} burcu kadını` : `${z.tr} burcu erkeği`;
+}
+
+// ─────────────────────────── Ana akış ───────────────────────────
+
+const gun = bugun();
+let uretilen = 0, atlanan = 0, hatali = 0;
+
+async function uret(etiket, dosya, systemPrompt, userText, maxTokens, minUzunluk, ekAlanlar) {
+  try {
+    const text = await gemini(systemPrompt, userText, maxTokens);
+    if (!tamMi(text, minUzunluk)) {
+      console.warn(`  ! ${etiket} kesik gorunuyor (${text.length} karakter), yazilmadi`);
+      hatali++;
+      return false;
+    }
+    await jsonYaz(dosya, { ...ekAlanlar, text });
+    uretilen++;
+    console.log(`  + ${etiket} (${text.length} karakter)`);
+    return true;
+  } catch (e) {
+    console.warn(`  ! ${etiket} HATA: ${e.message}`);
+    hatali++;
+    return false;
+  }
+}
+
+// ── 1) Günlük burç yorumları (her gün, hepsi) ──
+console.log(`\n=== Gunluk burc yorumlari (${gun}) ===`);
+for (const lang of LANGS) {
+  const sp = burcPrompt(lang);
+  for (const z of ZODIACS) {
+    const dosya = join(OUT, 'burc', lang, `${z.id}.json`);
+    const mevcut = await jsonOku(dosya);
+    if (mevcut?.date === gun && mevcut?.text) { atlanan++; continue; }
+
+    const tarih = new Date().toLocaleDateString('tr-TR', {
+      day: 'numeric', month: 'long', year: 'numeric',
+    });
+    await uret(
+      `burc/${lang}/${z.id}`, dosya, sp,
+      `${z.tr} burcu için ${tarih} tarihli ayrıntılı günlük yorum.`,
+      4000, 60, { date: gun, lang, zodiac: z.id },
+    );
+    await bekle(GECIKME);
+  }
+}
+
+// ── 2) Eksik burç rehberi metinleri (kalıcı) ──
+let butce = BACKLOG;
+console.log(`\n=== Burc rehberi (eksikler, butce ${butce}) ===`);
+for (const lang of REHBER_LANGS) {
+  if (butce <= 0) break;
+  const sp = rehberPrompt(lang);
+  for (const z of ZODIACS) {
+    if (butce <= 0) break;
+    const dosya = join(OUT, 'rehber', lang, `${z.id}.json`);
+    if (await jsonOku(dosya)) { atlanan++; continue; }
+
+    const ok = await uret(
+      `rehber/${lang}/${z.id}`, dosya, sp,
+      `${z.tr} burcu rehberi.`,
+      7000, 300, { lang, zodiac: z.id, updated: gun },
+    );
+    if (ok) butce--;
+    await bekle(GECIKME);
+  }
+}
+
+// ── 3) Eksik burç uyumu metinleri (kalıcı) ──
+console.log(`\n=== Burc uyumu (eksikler, kalan butce ${butce}) ===`);
+const ciftler = uyumCiftleri();
+for (const lang of LANGS) {
+  if (butce <= 0) break;
+  const sp = uyumPrompt(lang);
+  for (const [a, b] of ciftler) {
+    if (butce <= 0) break;
+    const ad = `${a}__${b}`;
+    const dosya = join(OUT, 'uyum', lang, `${ad}.json`);
+    if (await jsonOku(dosya)) { atlanan++; continue; }
+
+    const ok = await uret(
+      `uyum/${lang}/${ad}`, dosya, sp,
+      `${kisiEtiketi(a)} ile ${kisiEtiketi(b)} uyumu.`,
+      6000, 200, { lang, pair: ad, updated: gun },
+    );
+    if (ok) butce--;
+    await bekle(GECIKME);
+  }
+}
+
+// ── Özet ──
+await jsonYaz(join(OUT, 'surum.json'), {
+  updated: new Date().toISOString(),
+  date: gun,
+  model: MODEL,
+});
+
+console.log(`\n=== OZET ===`);
+console.log(`Uretilen : ${uretilen}`);
+console.log(`Atlanan  : ${atlanan} (zaten vardi)`);
+console.log(`Hatali   : ${hatali}`);
+console.log(`Kalan arsiv butcesi: ${butce}`);
