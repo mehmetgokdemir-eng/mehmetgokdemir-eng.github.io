@@ -52,7 +52,14 @@ jobs:
           git add kahvefali
           if git diff --staged --quiet; then
             echo "Degisiklik yok."
-          else
-            git commit -m "Kahve Sirlari icerik guncellemesi $(date -u +%Y-%m-%d)"
-            git push
+            exit 0
           fi
+          git commit -m "Kahve Sirlari icerik guncellemesi $(date -u +%Y-%m-%d)"
+          # Is calisirken depoya baska commit girdiyse: once onlari al, ustune bin, sonra push.
+          # Uc kez dene; icerik klasorune yalnizca bu is yazdigi icin cakisma beklenmez.
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            echo "Push basarisiz, tekrar deneniyor ($i/3)"
+            sleep 10
+          done
+          exit 1
