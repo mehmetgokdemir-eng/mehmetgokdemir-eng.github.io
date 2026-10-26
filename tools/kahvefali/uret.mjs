@@ -187,7 +187,8 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
       }
 
       const json = await res.json();
-      const text = (json.candidates?.[0]?.content?.parts || [])
+      const aday = json.candidates?.[0];
+      const text = (aday?.content?.parts || [])
         .map(p => p.text).filter(Boolean).join('\n').trim();
       if (!text) throw new Error('Bos yanit geldi');
 
@@ -195,20 +196,34 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
         console.log(`  >> Model degisti: ${MODELS[aktifModel]} -> ${model}`);
         aktifModel = mi;
       }
-      return markdownTemizle(text);
+      return { text: markdownTemizle(text), finishReason: aday?.finishReason || '' };
     }
 
+    // Bu model bu çağrıda hiç yanıt vermedi: çalışmanın geri kalanında atla.
+    // Aksi halde her çağrıda yeniden 35 saniye harcanıyor.
     if (mi + 1 < MODELS.length) {
-      console.warn(`  ${model} yanit vermiyor, "${MODELS[mi + 1]}" deneniyor`);
+      console.warn(`  ${model} yanit vermiyor, bundan sonra "${MODELS[mi + 1]}" kullanilacak`);
+      aktifModel = mi + 1;
     }
   }
 
   throw new Error(`Hicbir model yanit vermedi (son hata: ${sonHata})`);
 }
 
-/** Uygulamadaki looksComplete kontrolünün karşılığı. */
-function tamMi(text, minUzunluk) {
-  return text.length >= minUzunluk && SON_NOKTALAMA.includes(text.trimEnd().slice(-1));
+/**
+ * Metin tamamlanmış mı?
+ *
+ * Asıl ölçüt API'nin finishReason alanı: "MAX_TOKENS" gelirse yanıt
+ * token sınırına takılıp kesilmiş demektir. "STOP" ise model cümlesini
+ * bitirmiştir. Noktalama kontrolü yalnızca finishReason gelmediğinde
+ * yedek olarak kullanılır — son bölüm "uyumlu burç: Aslan" gibi harfle
+ * bitebildiği için tek başına güvenilir değil.
+ */
+function tamMi(text, minUzunluk, finishReason) {
+  if (text.length < minUzunluk) return false;
+  if (finishReason === 'MAX_TOKENS') return false;
+  if (finishReason) return true;
+  return SON_NOKTALAMA.includes(text.trimEnd().slice(-1));
 }
 
 // ─────────────────────────── İstemler (uygulamayla birebir) ───────────────────────────
@@ -324,9 +339,11 @@ let uretilen = 0, atlanan = 0, hatali = 0;
 
 async function uret(etiket, dosya, systemPrompt, userText, maxTokens, minUzunluk, ekAlanlar) {
   try {
-    const text = await gemini(systemPrompt, userText, maxTokens);
-    if (!tamMi(text, minUzunluk)) {
-      console.warn(`  ! ${etiket} kesik gorunuyor (${text.length} karakter), yazilmadi`);
+    const { text, finishReason } = await gemini(systemPrompt, userText, maxTokens);
+    if (!tamMi(text, minUzunluk, finishReason)) {
+      console.warn(
+        `  ! ${etiket} kesik gorunuyor (${text.length} karakter, ${finishReason || 'finishReason yok'}), yazilmadi`
+      );
       hatali++;
       return false;
     }
