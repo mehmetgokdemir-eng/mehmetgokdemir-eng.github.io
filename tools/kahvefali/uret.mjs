@@ -31,7 +31,7 @@ const API_KEY = process.env.GEMINI_API_KEY;
  * geri kalanında o model kullanılmaya devam eder.
  */
 const MODELS = (process.env.MODEL ||
-  'gemini-3.5-flash-lite,gemini-3.7-flash,gemini-2.5-flash-lite')
+  'gemini-3.5-flash-lite,gemini-3.5-flash,gemini-3.8-flash')
   .split(',').map(s => s.trim()).filter(Boolean);
 const BACKLOG = Number(process.env.BACKLOG || 120);
 const OUT     = process.env.CIKTI || 'kahvefali';
@@ -119,15 +119,27 @@ function markdownTemizle(s) {
     .trim();
 }
 
-/** O an kullanılan modelin MODELS listesindeki sırası. */
+/** Son başarılı modelin MODELS listesindeki sırası — önce o denenir. */
 let aktifModel = 0;
+
+/** Bu çalışmada 404/403 veren modeller: kalıcı olarak atlanır. */
+const oluModeller = new Set();
+
+/** Denenecek model sıraları: önce son başarılı olan, sonra kalanlar; ölüler atlanır. */
+function modelSirasi() {
+  const sira = [];
+  for (let i = aktifModel; i < MODELS.length; i++) sira.push(i);
+  for (let i = 0; i < aktifModel; i++) sira.push(i);
+  return sira.filter(i => !oluModeller.has(MODELS[i]));
+}
 
 /**
  * Gemini çağrısı.
  *
- * Geçici hatalarda (429 limit, 503 yoğunluk) artan beklemeyle yeniden dener.
- * Model üç denemede de yanıt vermezse — ya da hiç bulunamazsa (404) —
- * listedeki bir sonraki modele geçer ve çalışmanın kalanında onu kullanır.
+ * Geçici hatalarda (429 limit, 503 yoğunluk) artan beklemeyle üç kez dener,
+ * olmazsa sıradaki modele geçer. 404/403 veren model çalışma boyunca ölü
+ * sayılır ve bir daha denenmez; 503 ile pas geçilen modele ise sonraki
+ * metinde yeniden şans verilir (yoğunluk geçici olabilir).
  */
 async function gemini(systemPrompt, userText, maxOutputTokens) {
   const body = {
@@ -140,8 +152,10 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
   };
 
   let sonHata = 'bilinmiyor';
+  const sira = modelSirasi();
+  if (sira.length === 0) throw new Error('Kullanilabilir model kalmadi (hepsi 404/403 verdi)');
 
-  for (let mi = aktifModel; mi < MODELS.length; mi++) {
+  for (const mi of sira) {
     const model = MODELS[mi];
     const url =
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
@@ -172,11 +186,12 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
         await bekle(bekleme); bekleme *= 2; continue;
       }
 
-      // Model yok / erişim yok: beklemeden sıradaki modele geç
+      // Model yok / erişim yok: çalışma boyunca ölü işaretle, sıradakine geç
       if (res.status === 404 || res.status === 403) {
         const govde = (await res.text()).replace(/\s+/g, ' ').slice(0, 200);
         sonHata = `HTTP ${res.status}: ${govde}`;
-        console.warn(`  ${model}: HTTP ${res.status} — siradaki modele geciliyor`);
+        oluModeller.add(model);
+        console.warn(`  ${model}: HTTP ${res.status} — model olu, bir daha denenmeyecek`);
         if (govde) console.warn(`    yanit: ${govde}`);
         break;
       }
@@ -194,17 +209,10 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
       if (!text) throw new Error('Bos yanit geldi');
 
       if (mi !== aktifModel) {
-        console.log(`  >> Model degisti: ${MODELS[aktifModel]} -> ${model}`);
+        console.log(`  >> Aktif model: ${model}`);
         aktifModel = mi;
       }
       return { text: markdownTemizle(text), finishReason: aday?.finishReason || '' };
-    }
-
-    // Bu model bu çağrıda hiç yanıt vermedi: çalışmanın geri kalanında atla.
-    // Aksi halde her çağrıda yeniden 35 saniye harcanıyor.
-    if (mi + 1 < MODELS.length) {
-      console.warn(`  ${model} yanit vermiyor, bundan sonra "${MODELS[mi + 1]}" kullanilacak`);
-      aktifModel = mi + 1;
     }
   }
 
@@ -338,7 +346,17 @@ function kisiEtiketi(token) {
 const gun = bugun();
 let uretilen = 0, atlanan = 0, hatali = 0;
 
+/**
+ * Üst üste bu kadar metin başarısız olursa çalışma erken ve DÜZGÜN bitirilir:
+ * o ana kadar üretilenler yine yayınlanır, saatlerce boşa dönülmez.
+ * (Örn. tüm modeller aynı anda yoğunsa ertesi çalışmada kaldığı yerden sürer.)
+ */
+const PES_PESE_SINIR = 10;
+let pesPeseHata = 0;
+let durdur = false;
+
 async function uret(etiket, dosya, systemPrompt, userText, maxTokens, minUzunluk, ekAlanlar) {
+  if (durdur) return false;
   try {
     const { text, finishReason } = await gemini(systemPrompt, userText, maxTokens);
     if (!tamMi(text, minUzunluk, finishReason)) {
@@ -346,24 +364,40 @@ async function uret(etiket, dosya, systemPrompt, userText, maxTokens, minUzunluk
         `  ! ${etiket} kesik gorunuyor (${text.length} karakter, ${finishReason || 'finishReason yok'}), yazilmadi`
       );
       hatali++;
+      basarisizSay();
       return false;
     }
     await jsonYaz(dosya, { ...ekAlanlar, text });
     uretilen++;
+    pesPeseHata = 0;
     console.log(`  + ${etiket} (${text.length} karakter)`);
     return true;
   } catch (e) {
     console.warn(`  ! ${etiket} HATA: ${e.message}`);
     hatali++;
+    basarisizSay();
     return false;
+  }
+}
+
+function basarisizSay() {
+  pesPeseHata++;
+  if (pesPeseHata >= PES_PESE_SINIR && !durdur) {
+    durdur = true;
+    console.warn(
+      `\n!! Ust uste ${PES_PESE_SINIR} metin basarisiz oldu — calisma erken bitiriliyor. ` +
+      `O ana kadar uretilenler yayinlanacak; eksikler sonraki calismada tamamlanir.`
+    );
   }
 }
 
 // ── 1) Günlük burç yorumları (her gün, hepsi) ──
 console.log(`\n=== Gunluk burc yorumlari (${gun}) ===`);
 for (const lang of LANGS) {
+  if (durdur) break;
   const sp = burcPrompt(lang);
   for (const z of ZODIACS) {
+    if (durdur) break;
     const dosya = join(OUT, 'burc', lang, `${z.id}.json`);
     const mevcut = await jsonOku(dosya);
     if (mevcut?.date === gun && mevcut?.text) { atlanan++; continue; }
@@ -384,10 +418,10 @@ for (const lang of LANGS) {
 let butce = BACKLOG;
 console.log(`\n=== Burc rehberi (eksikler, butce ${butce}) ===`);
 for (const lang of REHBER_LANGS) {
-  if (butce <= 0) break;
+  if (butce <= 0 || durdur) break;
   const sp = rehberPrompt(lang);
   for (const z of ZODIACS) {
-    if (butce <= 0) break;
+    if (butce <= 0 || durdur) break;
     const dosya = join(OUT, 'rehber', lang, `${z.id}.json`);
     if (await jsonOku(dosya)) { atlanan++; continue; }
 
@@ -405,10 +439,10 @@ for (const lang of REHBER_LANGS) {
 console.log(`\n=== Burc uyumu (eksikler, kalan butce ${butce}) ===`);
 const ciftler = uyumCiftleri();
 for (const lang of LANGS) {
-  if (butce <= 0) break;
+  if (butce <= 0 || durdur) break;
   const sp = uyumPrompt(lang);
   for (const [a, b] of ciftler) {
-    if (butce <= 0) break;
+    if (butce <= 0 || durdur) break;
     const ad = `${a}__${b}`;
     const dosya = join(OUT, 'uyum', lang, `${ad}.json`);
     if (await jsonOku(dosya)) { atlanan++; continue; }
