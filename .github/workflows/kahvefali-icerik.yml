@@ -1,0 +1,50 @@
+name: Kahve Sirlari icerik uretimi
+
+on:
+  schedule:
+    - cron: '20 1 * * *'
+  workflow_dispatch:
+    inputs:
+      backlog:
+        description: 'Bu calismada uretilecek arsiv metni sayisi'
+        required: false
+        default: '120'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kahvefali-icerik
+  cancel-in-progress: false
+
+jobs:
+  uret:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@v4
+
+      - name: Node kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Icerikleri uret
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          BACKLOG: ${{ github.event.inputs.backlog || '120' }}
+        run: node tools/kahvefali/uret.mjs
+
+      - name: Degisiklikleri yayinla
+        run: |
+          git config user.name  "kahvefali-bot"
+          git config user.email "actions@github.com"
+          git add kahvefali
+          if git diff --staged --quiet; then
+            echo "Degisiklik yok."
+          else
+            git commit -m "Kahve Sirlari icerik guncellemesi $(date -u +%Y-%m-%d)"
+            git push
+          fi
