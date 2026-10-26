@@ -31,7 +31,7 @@ const API_KEY = process.env.GEMINI_API_KEY;
  * geri kalanında o model kullanılmaya devam eder.
  */
 const MODELS = (process.env.MODEL ||
-  'gemini-3.1-flash-lite,gemini-2.5-flash,gemini-flash-latest')
+  'gemini-3.5-flash-lite,gemini-3.7-flash,gemini-2.5-flash-lite')
   .split(',').map(s => s.trim()).filter(Boolean);
 const BACKLOG = Number(process.env.BACKLOG || 120);
 const OUT     = process.env.CIKTI || 'kahvefali';
@@ -177,6 +177,7 @@ async function gemini(systemPrompt, userText, maxOutputTokens) {
         const govde = (await res.text()).replace(/\s+/g, ' ').slice(0, 200);
         sonHata = `HTTP ${res.status}: ${govde}`;
         console.warn(`  ${model}: HTTP ${res.status} — siradaki modele geciliyor`);
+        if (govde) console.warn(`    yanit: ${govde}`);
         break;
       }
 
