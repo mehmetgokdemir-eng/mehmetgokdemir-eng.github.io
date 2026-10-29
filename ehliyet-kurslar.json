@@ -1,0 +1,18 @@
+{
+  "aciklama": "Ehliyet Akademi kurs listesi. Uygulama bu dosyayı günde bir kez okur. Yeni kurs eklemek için listeye satır eklemek, bir kursu iptal etmek için satırı silmek ya da gecerlilik tarihini geçmişe çekmek yeterlidir. Uygulama güncellemesi gerekmez.",
+  "surum": 1,
+  "guncelleme": "2026-10-29",
+  "kurslar": [
+    {
+      "kod": "KOCAK",
+      "ad": "Koçak Sürücü Kursu",
+      "telefon": "+905459557919",
+      "eposta": "kurumsal@kocaksurucukursu.com",
+      "adres": "Vatan Caddesi Park Sokak No:1 Kat:5 Kâğıthane/İstanbul",
+      "konum": "Koçak Sürücü Kursu, Vatan Caddesi Park Sokak No:1 Kâğıthane İstanbul",
+      "site": "https://www.kocaksurucukursu.com/iletisim.html",
+      "slogan": "Hafta içi ve hafta sonu 09.00-19.00",
+      "gecerlilik": "2027-12-31"
+    }
+  ]
+}
