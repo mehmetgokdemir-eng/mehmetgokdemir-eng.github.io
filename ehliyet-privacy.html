@@ -19,15 +19,16 @@
 <body>
 
 <h1>Ehliyet Akademi — Gizlilik Politikası</h1>
-<p class="tarih">Son güncelleme: 29 Ekim 2026</p>
+<p class="tarih">Son güncelleme: 3 Kasım 2026</p>
 
 <p>Bu politika, <strong>Ehliyet Akademi</strong> (paket adı <code>com.nihangokdemir.ehliyet</code>)
-Android uygulamasının kişisel verilerle ilişkisini açıklar.</p>
+Android ve iOS uygulamalarının kişisel verilerle ilişkisini açıklar.</p>
 
 <h2>Topladığımız kişisel veriler</h2>
 <p>Uygulama; ad, soyad, e-posta, telefon numarası, konum, rehber, fotoğraf ya da dosya gibi
 hiçbir kişisel veriyi toplamaz, istemez ve sunucuya göndermez. Uygulamanın kullanıcı hesabı
-ya da üyelik sistemi yoktur.</p>
+ya da üyelik sistemi yoktur. Aşağıdaki "Reklamlar" bölümünde anlatılan reklam altyapısının
+işlediği bilgiler bunun tek istisnasıdır.</p>
 
 <h2>Cihazda tutulan bilgiler</h2>
 <p>Çözdüğünüz sorular, doğru ve yanlış sayıları, kaydettiğiniz sorular ve deneme sınavı
@@ -36,22 +37,36 @@ iletilmez. Uygulamayı kaldırdığınızda bu veriler cihazınızdan silinir.</
 
 <h2>Reklamlar</h2>
 <p>Uygulamada Yango Ads (Yandex Mobile Ads SDK) üzerinden reklam gösterilebilir. Reklam
-altyapısı, reklamların gösterimi ve ölçümlenmesi amacıyla <strong>cihaz tanımlayıcısı</strong>
-(reklam kimliği) kullanabilir. Bu bilgi reklam sağlayıcısı tarafından işlenir; uygulama
-geliştiricisi bu veriye erişmez.</p>
+altyapısı, reklamların gösterimi ve ölçümlenmesi amacıyla şu bilgileri işleyebilir:</p>
+<ul>
+  <li><strong>Cihaz tanımlayıcısı</strong> (reklam kimliği)</li>
+  <li>IP adresinden çıkarılan <strong>yaklaşık konum</strong> (şehir düzeyinde; GPS kullanılmaz)</li>
+  <li>Reklamlarla etkileşim bilgisi (gösterim, tıklama)</li>
+  <li>Hata ve performans bilgisi (uygulama çöktüğünde teknik kayıt)</li>
+</ul>
+<p>Bu bilgiler reklam sağlayıcısı tarafından işlenir; uygulama geliştiricisi bu verilere
+erişmez. Kurs kodu girildiğinde reklamlar tamamen kapanır.</p>
 <ul>
   <li>Reklam sağlayıcısının gizlilik politikası: <a href="https://yandex.com/legal/confidential/">yandex.com/legal/confidential</a></li>
-  <li>Cihazınızdaki reklam kimliğini Android ayarlarından sıfırlayabilir ya da kişiselleştirilmiş
-      reklamları kapatabilirsiniz.</li>
+  <li><strong>Android:</strong> reklam kimliğinizi Ayarlar &gt; Google &gt; Reklamlar bölümünden
+      sıfırlayabilir ya da silebilirsiniz.</li>
+  <li><strong>iOS:</strong> uygulama ilk açılışta reklam takibi için izin ister. İzin vermezseniz
+      reklam kimliğiniz paylaşılmaz, reklamlar kişiselleştirilmeden gösterilir. Bu tercihi
+      istediğiniz zaman Ayarlar &gt; Gizlilik ve Güvenlik &gt; İzleme bölümünden
+      değiştirebilirsiniz.</li>
 </ul>
 
 <h2>İzinler</h2>
-<p>Uygulama iki izin kullanır:</p>
+<p>Uygulama şu izinleri kullanır:</p>
 <ul>
-  <li><strong>İnternet:</strong> reklam gösterimi, uygulama güncelleme kontrolü, değerlendirme
-      penceresi ve sürücü kursu listesinin güncellenmesi için kullanılır.</li>
+  <li><strong>İnternet:</strong> reklam gösterimi, değerlendirme penceresi ve sürücü kursu
+      listesinin güncellenmesi için kullanılır. Android'de ayrıca uygulama güncelleme kontrolü
+      için kullanılır.</li>
   <li><strong>Bildirim:</strong> yalnızca günlük çalışma hatırlatmasını açtığınızda istenir.
       İzin vermezseniz uygulama tüm özellikleriyle çalışmaya devam eder.</li>
+  <li><strong>Reklam takibi (yalnızca iOS):</strong> yukarıdaki "Reklamlar" bölümünde
+      anlatıldığı gibi, ilk açılışta bir kez sorulur. İzin vermeseniz de uygulamanın tamamı
+      çalışır.</li>
 </ul>
 <p>Soru bankası, trafik levhaları ve konu anlatımları uygulamanın içinde yer alır; soru çözmek
 için internet gerekmez.</p>
@@ -64,9 +79,9 @@ bilgisi tutulmaz. Kod girmek zorunlu değildir, uygulamanın tüm soruları ve d
 da açıktır.</p>
 
 <h2>Sesli okuma</h2>
-<p>Konu anlatımlarındaki "Dersi dinle" özelliği, cihazınızda yüklü olan Android seslendirme
-motorunu kullanır. Metin cihaz dışına gönderilmez, ses kaydı yapılmaz ve mikrofon
-kullanılmaz.</p>
+<p>Konu anlatımlarındaki "Dersi dinle" özelliği, cihazınızda yüklü olan seslendirme motorunu
+kullanır (Android'de sistem seslendirme motoru, iOS'ta sistemin konuşma sentezi). Metin
+cihaz dışına gönderilmez, ses kaydı yapılmaz ve mikrofon kullanılmaz.</p>
 
 <h2>Çocukların gizliliği</h2>
 <p>Uygulama, sürücü belgesi sınavına hazırlanan kullanıcılar içindir ve çocuklara yönelik
@@ -74,8 +89,8 @@ değildir. Çocuklardan bilerek veri toplanmaz.</p>
 
 <h2>Satın almalar</h2>
 <p>Uygulama içinde reklamsız kullanım gibi bir satın alma sunulduğunda, ödeme işlemleri
-tamamen Google Play üzerinden yürür. Kart bilgileriniz uygulamaya iletilmez ve tarafımızca
-görülmez.</p>
+tamamen Google Play (Android) ya da App Store (iOS) üzerinden yürür. Kart bilgileriniz
+uygulamaya iletilmez ve tarafımızca görülmez.</p>
 
 <h2>Resmî kurumlarla ilişki</h2>
 <p><strong>Ehliyet Akademi resmî bir uygulama değildir.</strong> Bağımsız bir hazırlık uygulamasıdır. Millî Eğitim Bakanlığı, Emniyet Genel
