@@ -8,63 +8,83 @@
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.7; color: #333; background: #fafafa; }
         h1 { color: #1a237e; border-bottom: 3px solid #1a237e; padding-bottom: 10px; }
         h2 { color: #283593; margin-top: 30px; }
+        h3 { color: #3949ab; margin-top: 20px; font-size: 16px; }
         p, li { font-size: 15px; }
         .date { color: #666; font-size: 13px; }
         .contact { background: #e8eaf6; padding: 15px; border-radius: 8px; margin-top: 20px; }
     </style>
 </head>
 <body>
-    <h1>KPSS Akademi — Gizlilik Politikası</h1>
-    <p class="date">Son güncelleme: 18 Eylül 2026</p>
 
-    <p>Bu gizlilik politikası, <strong>KPSS Akademi</strong> ("Uygulama") Android uygulamasının kullanıcı verilerini nasıl topladığını, kullandığını ve koruduğunu açıklar.</p>
+    <h1>KPSS Akademi — Gizlilik Politikası</h1>
+    <p class="date">Son güncelleme: 7 Kasım 2026</p>
+
+    <p>Bu gizlilik politikası, KPSS Akademi ("Uygulama") Android ve iOS uygulamalarının kullanıcı verilerini nasıl topladığını, kullandığını ve koruduğunu açıklar. Aksi belirtilmedikçe her iki sürüm için de geçerlidir.</p>
 
     <h2>1. Toplanan Veriler</h2>
     <p>KPSS Akademi çevrimdışı çalışan bir eğitim uygulamasıdır. Uygulama:</p>
     <ul>
-        <li>Kişisel bilgi (ad, e-posta, telefon numarası vb.) <strong>toplamaz</strong>.</li>
-        <li>Hesap oluşturma veya oturum açma <strong>gerektirmez</strong>.</li>
-        <li>Çalışma ilerlemeniz (çözülen sorular, istatistikler, ayarlar) yalnızca <strong>cihazınızda yerel olarak</strong> saklanır ve hiçbir sunucuya gönderilmez.</li>
+        <li>Kişisel bilgi (ad, e-posta, telefon numarası vb.) toplamaz.</li>
+        <li>Hesap oluşturma veya oturum açma gerektirmez.</li>
+        <li>Çalışma ilerlemeniz (çözülen sorular, istatistikler, notlar, ayarlar) yalnızca cihazınızda yerel olarak saklanır ve hiçbir sunucuya gönderilmez.</li>
     </ul>
+
     <p>Uygulamanın tüm eğitim içeriği (sorular, konu anlatımları, kartlar, denemeler) cihazınızda bulunur ve internet bağlantısı olmadan çalışır. Yalnızca şu özellikler internet kullanır:</p>
     <ul>
         <li><strong>Reklamlar</strong> (aşağıda açıklanmıştır).</li>
-        <li><strong>Wikipedia özeti:</strong> Bir konu hakkında Wikipedia özeti istediğinizde, yalnızca aradığınız terim Wikipedia'ya gönderilir. Bu istek kimliğinizle ilişkilendirilmez.</li>
-        <li><strong>Uygulama içi güncelleme:</strong> Google Play üzerinden yeni sürüm kontrolü yapılır; bu, Google Play'in kendi gizlilik politikasına tabidir.</li>
+        <li><strong>Sınav takvimi:</strong> Ana sayfadaki geri sayımın güncel kalması için kpssakademi.tr adresinden küçük bir takvim dosyası indirilir. Bu istekle birlikte hiçbir kişisel veri gönderilmez.</li>
+        <li><strong>Wikipedia özeti:</strong> Harita oyunlarında bir konuma dokunduğunuzda yalnızca o konumun adı Wikipedia'ya gönderilir. Bu istek kimliğinizle ilişkilendirilmez.</li>
+        <li><strong>Uygulama içi güncelleme (yalnızca Android):</strong> Google Play üzerinden yeni sürüm kontrolü yapılır; bu, Google Play'in kendi gizlilik politikasına tabidir.</li>
     </ul>
 
+    <p>iOS sürümündeki günlük çalışma hatırlatıcısı cihazın kendi bildirim sistemiyle çalışır ve hiçbir sunucuya veri göndermez.</p>
+
     <h2>2. Üçüncü Taraf Hizmetleri — Reklamlar</h2>
-    <p>Uygulama, ücretsiz kalabilmek için reklam gösterir. Reklamlar <strong>Yandex Reklam Ağı (Yango Ads)</strong> üzerinden, Yandex Mobile Ads SDK aracılığıyla sunulmaktadır.</p>
+    <p>Uygulama, ücretsiz kalabilmek için reklam gösterir. Reklamlar Yandex Reklam Ağı (Yango Ads) üzerinden, Yandex Mobile Ads SDK aracılığıyla sunulmaktadır. Bu SDK, Yandex'in AppMetrica analiz bileşenini de içerir.</p>
+
     <p>Yandex Mobile Ads SDK, reklam sunmak ve reklam performansını ölçmek amacıyla aşağıdaki verileri toplayabilir:</p>
     <ul>
-        <li>Reklam kimliği (Google Advertising ID) ve sıfırlanabilir cihaz tanımlayıcıları</li>
+        <li>Reklam kimliği ve sıfırlanabilir cihaz tanımlayıcıları — Android'de Google Advertising ID, iOS'ta Apple Reklam Tanımlayıcısı (IDFA). iOS'ta IDFA yalnızca aşağıda açıklanan izni verirseniz paylaşılır.</li>
         <li>IP adresi ve buna dayalı yaklaşık konum (şehir/ülke düzeyi)</li>
         <li>Cihaz bilgileri: model, işletim sistemi sürümü, ekran boyutu, dil</li>
         <li>Uygulama bilgileri: paket adı ve sürüm</li>
         <li>Reklam etkileşim verileri: gösterim, tıklama, izlenme</li>
+        <li>Uygulama çökme ve performans verileri (AppMetrica aracılığıyla, hataları tespit etmek için)</li>
     </ul>
-    <p>Uygulama <strong>konum izni istemez</strong>; Yandex'e hassas konum verisi iletilmez.</p>
-    <p>Reklam kimliğinizi cihazınızın Ayarlar &gt; Google &gt; Reklamlar bölümünden sıfırlayabilir veya kişiselleştirilmiş reklamları kapatabilirsiniz.</p>
-    <p>Yandex'in veri işleme uygulamaları hakkında detaylı bilgi için:
-        <a href="https://yandex.com/legal/confidential/" target="_blank">Yandex Gizlilik Politikası</a>
-    </p>
+    <p>Uygulama konum izni istemez; Yandex'e hassas konum verisi iletilmez.</p>
+
+    <h3>iOS — Uygulama Takip Şeffaflığı</h3>
+    <p>iOS sürümü, reklam kimliğinize erişmeden önce Apple'ın Uygulama Takip Şeffaflığı (App Tracking Transparency) izin penceresini gösterir. İzin vermezseniz IDFA paylaşılmaz; reklamlar yine gösterilir ancak ilginize göre kişiselleştirilmez. Uygulamanın tüm özellikleri izin verip vermemenizden bağımsız olarak çalışır.</p>
+    <p>Bu tercihinizi istediğiniz zaman iPhone'unuzda <strong>Ayarlar &gt; Gizlilik ve Güvenlik &gt; İzleme</strong> bölümünden değiştirebilirsiniz.</p>
+
+    <h3>Reklam kimliğini sıfırlama</h3>
+    <ul>
+        <li><strong>Android:</strong> Ayarlar &gt; Google &gt; Reklamlar bölümünden reklam kimliğinizi sıfırlayabilir veya kişiselleştirilmiş reklamları kapatabilirsiniz.</li>
+        <li><strong>iOS:</strong> Ayarlar &gt; Gizlilik ve Güvenlik &gt; İzleme bölümünden uygulamaların takip iznini kapatabilirsiniz.</li>
+    </ul>
+
+    <p>Yandex'in veri işleme uygulamaları hakkında detaylı bilgi için:</p>
+    <ul>
+        <li><a href="https://yandex.com/legal/confidential/" target="_blank" rel="noopener">Yandex Gizlilik Politikası</a></li>
+    </ul>
 
     <h2>3. Veri Paylaşımı</h2>
-    <p>Uygulamanın kendisi hiçbir kullanıcı verisi toplamadığı için üçüncü taraflarla <strong>paylaşılacak, satılacak veya kiralanacak</strong> bir veri yoktur. Yandex Mobile Ads SDK tarafından toplanan reklam verileri Yandex'in kendi gizlilik politikasına tabidir ve bu veriler tarafımızca görüntülenmez veya saklanmaz.</p>
+    <p>Uygulamanın kendisi hiçbir kullanıcı verisi toplamadığı için üçüncü taraflarla paylaşılacak, satılacak veya kiralanacak bir veri yoktur. Yandex Mobile Ads SDK tarafından toplanan reklam ve performans verileri Yandex'in kendi gizlilik politikasına tabidir ve bu veriler tarafımızca görüntülenmez veya saklanmaz.</p>
 
     <h2>4. Veri Güvenliği</h2>
-    <p>Tüm kullanıcı ilerleme verileri cihazınızda yerel olarak saklanır. Uygulamayı kaldırdığınızda bu veriler otomatik olarak silinir.</p>
+    <p>Tüm kullanıcı ilerleme verileri cihazınızda yerel olarak saklanır. Uygulamayı kaldırdığınızda bu veriler otomatik olarak silinir. iOS'ta Ayarlar ekranındaki "Çalışma geçmişini sil" seçeneğiyle soru çözme kayıtlarınızı uygulamayı kaldırmadan da silebilirsiniz.</p>
 
     <h2>5. Çocukların Gizliliği</h2>
     <p>KPSS Akademi, üniversite mezunlarına yönelik sınav hazırlık uygulamasıdır ve 18 yaş altı kullanıcıları hedeflemez. 13 yaşından küçük çocuklardan bilerek veri toplamayız.</p>
 
     <h2>6. Değişiklikler</h2>
-    <p>Bu gizlilik politikası zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlanır.</p>
+    <p>Bu gizlilik politikası zaman zaman güncellenebilir. Değişiklikler bu sayfada yayınlanır ve sayfanın başındaki "Son güncelleme" tarihi değiştirilir.</p>
 
     <div class="contact">
-        <h2 style="margin-top:0">7. İletişim</h2>
+        <h2>7. İletişim</h2>
         <p>Gizlilik politikasıyla ilgili sorularınız için:</p>
-        <p>📧 E-posta: <strong>mehmetgokdemir@gmail.com</strong></p>
+        <p>📧 E-posta: <a href="mailto:mehmetgokdemir@gmail.com">mehmetgokdemir@gmail.com</a></p>
     </div>
+
 </body>
 </html>
