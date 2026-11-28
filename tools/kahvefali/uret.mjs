@@ -469,3 +469,12 @@ console.log(`Uretilen : ${uretilen}`);
 console.log(`Atlanan  : ${atlanan} (zaten vardi)`);
 console.log(`Hatali   : ${hatali}`);
 console.log(`Kalan arsiv butcesi: ${butce}`);
+
+// ── Alarm ──
+// Hiç içerik üretilemediyse çalışma KIRMIZI bitsin: GitHub başarısız
+// çalışmalarda e-posta gönderir, sorun aynı gün fark edilir.
+// (O ana kadar commit edilen bir şey yoktur; yayın adımı zaten çalışmaz.)
+if (uretilen === 0 && hatali > 0) {
+  console.error('\n!!! Hic icerik uretilemedi — calisma BASARISIZ sayiliyor.');
+  process.exit(1);
+}
